@@ -10,7 +10,7 @@
     <!-- Sidebar dari komponen -->
     <div id="sidebar-container"></div>
     <script>
-      fetch('../../components/sidebar.html')
+      fetch('../../src/components/sidebar.html')
         .then(res => res.text())
         .then(html => {
           document.getElementById('sidebar-container').innerHTML = html;
