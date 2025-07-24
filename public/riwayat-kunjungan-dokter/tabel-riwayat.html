@@ -60,7 +60,7 @@
      <!-- Sidebar dari komponen -->
     <div id="sidebar-container"></div>
     <script>
-      fetch('../../components/sidebar.html')
+      fetch('../../components/sidebar-dokter.html')
         .then(res => res.text())
         .then(html => {
           document.getElementById('sidebar-container').innerHTML = html;
@@ -74,7 +74,7 @@
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z"/>
                                 </svg>
-                                <span class="text-sm font-medium">Riwayat Kunjungan Pasien</span>
+                                <span class="text-sm font-medium">Dashboard</span>
                             </div>
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
@@ -244,45 +244,42 @@
                     <div class="overflow-x-auto">
                         <table class="w-full table-auto">
                             <thead>
-                                <tr class="border-b border-gray-200">
+                                <tr class="border-b border-gray-200 text-sm">
                                     <th class="text-left py-3 px-4 font-medium text-gray-700">No.Reg</th>
                                     <th class="text-left py-3 px-4 font-medium text-gray-700">Tanggal Tindakan</th>
                                     <th class="text-left py-3 px-4 font-medium text-gray-700">Lokasi Pelayanan</th>
                                     <th class="text-left py-3 px-4 font-medium text-gray-700">Nama Tindakan</th>
                                     <th class="text-left py-3 px-4 font-medium text-gray-700">Dokter PJ</th>
-                                    <th class="text-left py-3 px-4 font-medium text-gray-700">Catatan Medis</th>
+                                    <th class="text-left py-3 px-4 font-medium text-gray-700 w-[300px] max-w-[300px]">Catatan Medis</th>
                                     <th class="text-left py-3 px-4 font-medium text-gray-700">Aksi</th>
                                     <th class="text-left py-3 px-4 font-medium text-gray-700">Status</th>
                                 </tr>
                             </thead>
                             <tbody id="tindakanTable">
-                                <tr class="border-b border-gray-100 hover:bg-gray-50 transition-colors">
+                                <tr class="border-b border-gray-100 hover:bg-gray-50 transition-colors text-sm">
                                     <td class="py-4 px-4">UM00024</td>
                                     <td class="py-4 px-4">18 Juni 2025</td>
                                     <td class="py-4 px-4">Poli Umum</td>
                                     <td class="py-4 px-4">Pemeriksaan Fisik</td>
                                     <td class="py-4 px-4">dr. Julian Amato</td>
                                     <td class="py-4 px-4">
-                                        <div class="flex items-center space-x-1">
-                                            <div class="hs-accordion active" id="hs-basic-with-title-and-arrow-stretched-heading-one">
-                                            <button class="hs-accordion-toggle hs-accordion-active:text-blue-600 py-3 inline-flex items-center justify-between gap-x-3 w-full text-start text-gray-800 hover:text-gray-500 rounded-lg disabled:opacity-50 disabled:pointer-events-none dark:hs-accordion-active:text-blue-500 dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:outline-hidden dark:focus:text-neutral-400" aria-expanded="true" aria-controls="hs-basic-with-title-and-arrow-stretched-collapse-one">
-                                                <span class="text-sm text-gray-600">Tensi cukup tinggi, Hipertensi</span>
-                                                <svg class="hs-accordion-active:hidden block size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <div class="hs-accordion" id="hs-basic-with-title-and-arrow-stretched-heading-two">
+                                            <button class="hs-accordion-toggle hs-accordion-active:text-blue-600 py-3 inline-flex items-center justify-between gap-x-3 w-full text-start text-gray-800 hover:text-gray-500 rounded-lg disabled:opacity-50 disabled:pointer-events-none dark:hs-accordion-active:text-blue-500 dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:outline-hidden dark:focus:text-neutral-400" aria-expanded="false" aria-controls="hs-basic-with-title-and-arrow-stretched-collapse-two">
+                                            Tensi cukup tinggi, Hipertensi
+                                            <svg class="hs-accordion-active:hidden block size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                                 <path d="m6 9 6 6 6-6"></path>
-                                                </svg>
-                                                <svg class="hs-accordion-active:block hidden size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            </svg>
+                                            <svg class="hs-accordion-active:block hidden size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                                 <path d="m18 15-6-6-6 6"></path>
-                                                </svg>
+                                            </svg>
                                             </button>
-                                            <div id="hs-basic-with-title-and-arrow-stretched-collapse-one" class="hs-accordion-content w-full overflow-hidden transition-[height] duration-300" role="region" aria-labelledby="hs-basic-with-title-and-arrow-stretched-heading-one">
-                                                <div id="detail1" class="detail-collapsed mt-2 p-3 bg-gray-50 rounded text-sm">
-                                                <p class="mb-2"><strong>Diagnosis:</strong> Hipertensi Primer (I10)</p>
-                                                <p class="mb-2"><strong>Tekanan Darah:</strong> 160/95 mmHg</p>
-                                                <p class="mb-2"><strong>Nadi:</strong> 88 bpm</p>
-                                                <p class="mb-2"><strong>Suhu:</strong> 36.5°C</p>
-                                                <p class="mb-2"><strong>Resep:</strong> Amlodipine 5mg 1x1, Captopril 25mg 2x1</p>
-                                                <button onclick="openDetailModal(1)" class="text-blue-600 hover:underline">Lihat Detail Lengkap</button>
-                                                </div>
+                                            <div id="hs-basic-with-title-and-arrow-stretched-collapse-two" class="hs-accordion-content hidden w-full overflow-hidden transition-[height] duration-300" role="region" aria-labelledby="hs-basic-with-title-and-arrow-stretched-heading-two">
+                                            <p class="mb-2"><strong>Diagnosis:</strong> Hipertensi Primer (I10)</p>
+                                            <p class="mb-2"><strong>Tekanan Darah:</strong> 160/95 mmHg</p>
+                                            <p class="mb-2"><strong>Nadi:</strong> 88 bpm</p>
+                                            <p class="mb-2"><strong>Suhu:</strong> 36.5°C</p>
+                                            <p class="mb-2"><strong>Resep:</strong> Amlodipine 5mg 1x1, Captopril 25mg 2x1</p>
+                                            <button onclick="openDetailModal(1)" class="text-blue-600 hover:underline">Lihat Detail Lengkap</button>
                                             </div>
                                         </div>
                                     </td>
@@ -302,37 +299,34 @@
                                         </div>
                                     </td>
                                     <td class="py-4 px-4">
-                                        <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">Dirujuk ke Poli Penyakit Dalam</span>
+                                        <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">Dirujuk</span>
                                     </td>
                                 </tr>
-                                <tr class="border-b border-gray-100 hover:bg-gray-50 transition-colors">
+                                <tr class="border-b border-gray-100 hover:bg-gray-50 transition-colors text-sm">
                                     <td class="py-4 px-4">PD0082</td>
                                     <td class="py-4 px-4">18 Juli 2025</td>
                                     <td class="py-4 px-4">Poli Penyakit Dalam</td>
                                     <td class="py-4 px-4">Pemeriksaan Fisik</td>
                                     <td class="py-4 px-4">dr. Sho</td>
                                     <td class="py-4 px-4">
-                                        <div class="flex items-center space-x-1">
-                                            <div class="hs-accordion active" id="hs-basic-with-title-and-arrow-stretched-heading-one">
-                                            <button class="hs-accordion-toggle hs-accordion-active:text-blue-600 py-3 inline-flex items-center justify-between gap-x-3 w-full text-start text-gray-800 hover:text-gray-500 rounded-lg disabled:opacity-50 disabled:pointer-events-none dark:hs-accordion-active:text-blue-500 dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:outline-hidden dark:focus:text-neutral-400" aria-expanded="true" aria-controls="hs-basic-with-title-and-arrow-stretched-collapse-one">
-                                                <span class="text-sm text-gray-600">Tensi sudah terkontrol</span>
-                                                <svg class="hs-accordion-active:hidden block size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <div class="hs-accordion" id="hs-basic-with-title-and-arrow-stretched-heading-two">
+                                            <button class="hs-accordion-toggle hs-accordion-active:text-blue-600 py-3 inline-flex items-center justify-between gap-x-3 w-full text-start text-gray-800 hover:text-gray-500 rounded-lg disabled:opacity-50 disabled:pointer-events-none dark:hs-accordion-active:text-blue-500 dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:outline-hidden dark:focus:text-neutral-400" aria-expanded="false" aria-controls="hs-basic-with-title-and-arrow-stretched-collapse-two">
+                                            Tensi sudah terkontrol
+                                            <svg class="hs-accordion-active:hidden block size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                                 <path d="m6 9 6 6 6-6"></path>
-                                                </svg>
-                                                <svg class="hs-accordion-active:block hidden size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            </svg>
+                                            <svg class="hs-accordion-active:block hidden size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                                 <path d="m18 15-6-6-6 6"></path>
-                                                </svg>
+                                            </svg>
                                             </button>
-                                            <div id="hs-basic-with-title-and-arrow-stretched-collapse-one" class="hs-accordion-content w-full overflow-hidden transition-[height] duration-300" role="region" aria-labelledby="hs-basic-with-title-and-arrow-stretched-heading-one">
-                                                <div id="detail2" class="detail-collapsed mt-2 p-3 bg-gray-50 rounded text-sm">
-                                                    <p class="mb-2"><strong>Diagnosis:</strong> Hipertensi Terkontrol</p>
-                                                    <p class="mb-2"><strong>Tekanan Darah:</strong> 130/80 mmHg</p>
-                                                    <p class="mb-2"><strong>Nadi:</strong> 78 bpm</p>
-                                                    <p class="mb-2"><strong>Suhu:</strong> 36.2°C</p>
-                                                    <p class="mb-2"><strong>Resep:</strong> Lanjut Amlodipine 5mg 1x1</p>
-                                                    <p class="mb-2"><strong>Anjuran:</strong> Kontrol 3 bulan lagi, diet rendah garam</p>
-                                                    <button onclick="openDetailModal(2)" class="text-blue-600 hover:underline">Lihat Detail Lengkap</button>
-                                                </div>
+                                            <div id="hs-basic-with-title-and-arrow-stretched-collapse-two" class="hs-accordion-content hidden w-full overflow-hidden transition-[height] duration-300" role="region" aria-labelledby="hs-basic-with-title-and-arrow-stretched-heading-two">
+                                                <p class="mb-2"><strong>Diagnosis:</strong> Hipertensi Terkontrol</p>
+                                                <p class="mb-2"><strong>Tekanan Darah:</strong> 130/80 mmHg</p>
+                                                <p class="mb-2"><strong>Nadi:</strong> 78 bpm</p>
+                                                <p class="mb-2"><strong>Suhu:</strong> 36.2°C</p>
+                                                <p class="mb-2"><strong>Resep:</strong> Lanjut Amlodipine 5mg 1x1</p>
+                                                <p class="mb-2"><strong>Anjuran:</strong> Kontrol 3 bulan lagi, diet rendah garam</p>
+                                            <button onclick="openDetailModal(2)" class="text-blue-600 hover:underline">Lihat Detail Lengkap</button>
                                             </div>
                                         </div>
                                     </td>
