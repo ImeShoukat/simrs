@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="/src/css/variants.css" />
+</head>
+<body>
+  <div class="hs-accordion-group">
+    <div class="hs-accordion active" id="hs-basic-with-title-and-arrow-stretched-heading-one">
+      <button class="hs-accordion-toggle hs-accordion-active:text-blue-600 py-3 inline-flex items-center justify-between gap-x-3 w-full font-semibold text-start text-gray-800 hover:text-gray-500 rounded-lg disabled:opacity-50 disabled:pointer-events-none dark:hs-accordion-active:text-blue-500 dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:outline-hidden dark:focus:text-neutral-400" aria-expanded="true" aria-controls="hs-basic-with-title-and-arrow-stretched-collapse-one">
+        Tensi cukup tinggi, Hipertensi
+        <svg class="hs-accordion-active:hidden block size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="m6 9 6 6 6-6"></path>
+        </svg>
+        <svg class="hs-accordion-active:block hidden size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="m18 15-6-6-6 6"></path>
+        </svg>
+      </button>
+      <div id="hs-basic-with-title-and-arrow-stretched-collapse-one" class="hs-accordion-content w-full overflow-hidden transition-[height] duration-300" role="region" aria-labelledby="hs-basic-with-title-and-arrow-stretched-heading-one">
+        <div id="detail1" class="detail-collapsed mt-2 p-3 bg-gray-50 rounded text-sm">
+          <p class="mb-2"><strong>Diagnosis:</strong> Hipertensi Primer (I10)</p>
+          <p class="mb-2"><strong>Tekanan Darah:</strong> 160/95 mmHg</p>
+          <p class="mb-2"><strong>Nadi:</strong> 88 bpm</p>
+          <p class="mb-2"><strong>Suhu:</strong> 36.5°C</p>
+          <p class="mb-2"><strong>Resep:</strong> Amlodipine 5mg 1x1, Captopril 25mg 2x1</p>
+          <button onclick="openDetailModal(1)" class="text-blue-600 hover:underline">Lihat Detail Lengkap</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/preline/dist/preline.js"></script>
+</html>
