@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIMRS - Riwayat Stok Obat</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              "blue-primary": "#4F46E5",
+              "blue-light": "#EEF2FF",
+              "gray-light": "#F8FAFC",
+            },
+          },
+        },
+      };
+    </script>
+</head>
+<body class="bg-gray-50 font-inter">
+    <!-- Kontainer Sidebar -->
+    <div id="sidebar-container"></div>
+    <script>
+      fetch("../../src/components/sidebar.html")
+        .then((res) => res.text())
+        .then((html) => {
+          document.getElementById("sidebar-container").innerHTML = html;
+        });
+    </script>
+
+    <!-- Konten Utama -->
+    <div class="lg:ml-64 min-h-screen bg-white">
+        <!-- Header -->
+        <header class="bg-white shadow-sm border-b sticky top-0 z-40">
+            <div class="flex items-center justify-between px-4 lg:px-6 py-4">
+                <nav class="flex items-center space-x-2 text-sm text-gray-600">
+                    <a href="../dashboard.html" class="hover:text-gray-900">Home</a>
+                    <span>></span>
+                    <a href="#" class="hover:text-gray-900">Farmasi</a>
+                    <span>></span>
+                    <a href="tabel-data-obat.html" class="hover:text-gray-900">Stok Barang Pengadaan</a>
+                    <span>></span>
+                    <span class="text-gray-900 font-medium">Riwayat Stok</span>
+                </nav>
+                <div class="flex items-center space-x-2">
+                    <span class="text-gray-700 hidden sm:block">Admin</span>
+                    <button class="p-2 rounded-lg hover:bg-gray-100">
+                        <i class="fas fa-user-circle text-gray-500"></i>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Konten Utama -->
+        <div class="p-4 lg:p-6">
+            <div class="max-w-7xl mx-auto">
+                <!-- Page Header -->
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+                    <div>
+                        <h1 class="text-2xl font-bold text-gray-900">RIWAYAT STOK OBAT</h1>
+                    </div>
+                </div>
+
+                <!-- Drug Information Card -->
+                <div class="bg-blue-50 rounded-lg shadow-sm border p-6 mb-6">
+                    <div class="grid grid-cols-3 gap-6">
+                        <div class="space-y-3">
+                            <div class="grid grid-cols-[2fr_auto_2fr] gap-2">
+                                <span class="w-24 font-semibold text-sm">Nama Obat</span>
+                                <span class="mr-2">:</span>
+                                <span class="text-sm">Paracetamol 500mg</span>
+                            </div>
+                            <div class="grid grid-cols-[2fr_auto_2fr] gap-2">
+                                <span class="ww-24 font-semibold text-sm">Stok Tersedia</span>
+                                <span class="mr-2">:</span>
+                                <span class="text-sm">200</span>
+                            </div>
+                            <div class="grid grid-cols-[2fr_auto_2fr] gap-2">
+                                <span class="ww-24 font-semibold text-sm">Asal Barang</span>
+                                <span class="mr-2">:</span>
+                                <span class="text-sm">Pengadaan</span>
+                            </div>
+                        </div>
+                        <div class="space-y-3">
+                            <div class="grid grid-cols-[2fr_auto_2fr] gap-2">
+                                <span class="ww-24 font-semibold text-sm">Sumber Dana</span>
+                                <span class="mr-2">:</span>
+                                <span class="text-sm">BLUD</span>
+                            </div>
+                            <div class="grid grid-cols-[2fr_auto_2fr] gap-2">
+                                <span class="ww-24 font-semibold text-sm">Jenis Barang</span>
+                                <span class="mr-2">:</span>
+                                <span class="text-sm">Obat</span>
+                            </div>
+                            <div class="grid grid-cols-[2fr_auto_2fr] gap-2">
+                                <span class="ww-24 font-semibold text-sm">Satuan</span>
+                                <span class="mr-2">:</span>
+                                <span class="text-sm">Strip</span>
+                            </div>
+                        </div>
+                        <div class="space-y-3">
+                            <div class="grid grid-cols-[2fr_auto_2fr] gap-2">
+                                <span class="ww-24 font-semibold text-sm">Harga Jual</span>
+                                <span class="mr-2">:</span>
+                                <span class="text-sm">Rp 18.000</span>
+                            </div>
+                            <div class="grid grid-cols-[2fr_auto_2fr] gap-2" >
+                                <span class="ww-24 font-semibold text-sm">Harga Beli</span>
+                                <span class="mr-2">:</span>
+                                <span class="text-sm">Rp 15.000</span>
+                            </div>
+                            <div class="grid grid-cols-[2fr_auto_2fr] gap-2">
+                                <span class="ww-24 font-semibold text-sm">Catatan Khusus</span>
+                                <span class="mr-2">:</span>
+                                <span class="text-sm">-</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tabs -->
+                <div class="bg-white rounded-lg shadow-sm border">
+                    <div class="border-b">
+                        <nav class="flex space-x-8 px-6" aria-label="Tabs">
+                            <button id="tab-keluar" class="border-b-2 border-blue-500 py-4 px-1 text-sm font-medium text-blue-600">
+                                Riwayat Keluar/Masuk Stok
+                            </button>
+                            <button id="tab-batch" class="border-b-2 border-transparent py-4 px-1 text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300">
+                                Riwayat per Batch
+                            </button>
+                        </nav>
+                    </div>
+
+                    <!-- Tab Content -->
+                    <div class="p-6">
+                        <!-- Filters -->
+                        <div class="bg-white p-4 mb-6">
+                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Tanggal Dari</label>
+                                    <input type="date" value="2025-07-16" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Tanggal Sampai</label>
+                                    <input type="date" value="2025-07-16" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Pencarian</label>
+                                    <input type="text" placeholder="Cari transaksi..." class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                </div>
+                                <div class="flex items-end gap-3 justify-between w-full">
+                                    <button class="bg-red-100 hover:bg-red-200 text-red-600 px-4 py-2 rounded-lg text-sm transition-colors">
+                                        Reset <i class="fas fa-redo ml-1"></i>
+                                    </button>
+                                    <button class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm transition-colors">
+                                        Cetak <i class="fas fa-print ml-1"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Table Container -->
+                        <div id="table-keluar" class="bg-white rounded-lg shadow-sm border overflow-hidden">
+                            <table class="w-full min-w-[800px]">
+                                <thead class="bg-blue-50">
+                                    <tr>
+                                        <th class="px-6 py-3 text-start text-xs font-bold text-gray-700 uppercase">No</th>
+                                        <th class="px-6 py-3 text-start text-xs font-bold text-gray-700 uppercase">Tanggal</th>
+                                        <th class="px-6 py-3 text-start text-xs font-bold text-gray-700 uppercase">Dokter</th>
+                                        <th class="px-6 py-3 text-start text-xs font-bold text-gray-700 uppercase">Pasien</th>
+                                        <th class="px-6 py-3 text-center text-xs font-bold text-gray-700 uppercase">Stok Masuk</th>
+                                        <th class="px-6 py-3 text-center text-xs font-bold text-gray-700 uppercase">Stok Keluar</th>
+                                        <th class="px-6 py-3 text-center text-xs font-bold text-gray-700 uppercase">Stok Akhir</th>
+                                        <th class="px-6 py-3 text-start text-xs font-bold text-gray-700 uppercase">Keterangan</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-white divide-y divide-gray-200 text-sm text-gray-700">
+                                    <tr class="hover:bg-gray-50 transition-colors">
+                                        <td class="px-6 py-4 text-center">1</td>
+                                        <td class="px-6 py-4">20/07/2025</td>
+                                        <td class="px-6 py-4">dr. Sinta Ayu</td>
+                                        <td class="px-6 py-4">Dewi Larasati</td>
+                                        <td class="px-6 py-4 text-center font-medium text-green-600">0</td>
+                                        <td class="px-6 py-4 text-center font-medium text-red-600">10</td>
+                                        <td class="px-6 py-4 text-center font-bold text-blue-600">90</td>
+                                        <td class="px-6 py-4">Resep Keluar</td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-50 transition-colors">
+                                        <td class="px-6 py-4 text-center">2</td>
+                                        <td class="px-6 py-4">21/07/2025</td>
+                                        <td class="px-6 py-4">-</td>
+                                        <td class="px-6 py-4">-</td>
+                                        <td class="px-6 py-4 text-center font-medium text-green-600">20</td>
+                                        <td class="px-6 py-4 text-center font-medium text-red-600">0</td>
+                                        <td class="px-6 py-4 text-center font-bold text-blue-600">110</td>
+                                        <td class="px-6 py-4">Restock</td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-50 transition-colors">
+                                        <td class="px-6 py-4 text-center">3</td>
+                                        <td class="px-6 py-4">22/07/2025</td>
+                                        <td class="px-6 py-4">dr. Rina Amrita</td>
+                                        <td class="px-6 py-4">Rudi Gunawan</td>
+                                        <td class="px-6 py-4 text-center font-medium text-green-600">10</td>
+                                        <td class="px-6 py-4 text-center font-medium text-red-600">0</td>
+                                        <td class="px-6 py-4 text-center font-bold text-blue-600">110</td>
+                                        <td class="px-6 py-4">Return resep tidak diambil</td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-50 transition-colors">
+                                        <td class="px-6 py-4 text-center">4</td>
+                                        <td class="px-6 py-4">22/07/2025</td>
+                                        <td class="px-6 py-4">-</td>
+                                        <td class="px-6 py-4">-</td>
+                                        <td class="px-6 py-4 text-center font-medium text-green-600">0</td>
+                                        <td class="px-6 py-4 text-center font-medium text-red-600">50</td>
+                                        <td class="px-6 py-4 text-center font-bold text-blue-600">60</td>
+                                        <td class="px-6 py-4">Expired</td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-50 transition-colors">
+                                        <td class="px-6 py-4 text-center">5</td>
+                                        <td class="px-6 py-4">22/07/2025</td>
+                                        <td class="px-6 py-4">-</td>
+                                        <td class="px-6 py-4">-</td>
+                                        <td class="px-6 py-4 text-center font-medium text-green-600">300</td>
+                                        <td class="px-6 py-4 text-center font-medium text-red-600">0</td>
+                                        <td class="px-6 py-4 text-center font-bold text-blue-600">360</td>
+                                        <td class="px-6 py-4">Restock</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Batch Table (Hidden by default) -->
+                        <div id="table-batch" class="overflow-x-auto hidden bg-white rounded-lg shadow-sm border">
+                            <table class="w-full min-w-[800px]">
+                                <thead class="bg-blue-50">
+                                    <tr>
+                                        <th class="px-6 py-3 text-start text-xs font-bold text-gray-700 uppercase">No</th>
+                                        <th class="px-6 py-3 text-start text-xs font-bold text-gray-700 uppercase">Tgl. Masuk</th>
+                                        <th class="px-6 py-3 text-start text-xs font-bold text-gray-700 uppercase">Tgl. Expired</th>
+                                        <th class="px-6 py-3 text-start text-xs font-bold text-gray-700 uppercase">No. Batch</th>
+                                        <th class="px-6 py-3 text-center text-xs font-bold text-gray-700 uppercase">Stok Masuk</th>
+                                        <th class="px-6 py-3 text-center text-xs font-bold text-gray-700 uppercase">Sisa</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-white divide-y divide-gray-200 text-sm text-gray-700">
+                                    <tr class="hover:bg-gray-50 transition-colors">
+                                        <td class="px-6 py-4 text-center">1</td>
+                                        <td class="px-6 py-4">16/07/2025</td>
+                                        <td class="px-6 py-4">16/07/2025</td>
+                                        <td class="px-6 py-4 font-medium text-blue-600">BCH-0925</td>
+                                        <td class="px-6 py-4 text-center font-medium text-green-600">100</td>
+                                        <td class="px-6 py-4 text-center font-bold text-blue-600">0</td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-50 transition-colors">
+                                        <td class="px-6 py-4 text-center">2</td>
+                                        <td class="px-6 py-4">16/07/2025</td>
+                                        <td class="px-6 py-4">16/07/2025</td>
+                                        <td class="px-6 py-4 font-medium text-blue-600">BCH-1025</td>
+                                        <td class="px-6 py-4 text-center font-medium text-green-600">120</td>
+                                        <td class="px-6 py-4 text-center font-bold text-blue-600">20</td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-50 transition-colors">
+                                        <td class="px-6 py-4 text-center">3</td>
+                                        <td class="px-6 py-4">16/07/2025</td>
+                                        <td class="px-6 py-4">16/07/2027</td>
+                                        <td class="px-6 py-4 font-medium text-blue-600">BCH-1125</td>
+                                        <td class="px-6 py-4 text-center font-medium text-green-600">120</td>
+                                        <td class="px-6 py-4 text-center font-bold text-blue-600">60</td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-50 transition-colors">
+                                        <td class="px-6 py-4 text-center">4</td>
+                                        <td class="px-6 py-4">16/07/2025</td>
+                                        <td class="px-6 py-4">16/07/2027</td>
+                                        <td class="px-6 py-4 font-medium text-blue-600">BCH-1225</td>
+                                        <td class="px-6 py-4 text-center font-medium text-green-600">110</td>
+                                        <td class="px-6 py-4 text-center font-bold text-blue-600">120</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Pagination -->
+                        <div class="bg-gray-50 px-6 py-3 flex items-center justify-between border-t border-gray-200 mt-6">
+                            <div class="text-sm text-gray-700">
+                                <span id="pagination-info">Menampilkan 1 - 5 dari 5 data</span>
+                            </div>
+                            <div class="flex items-center space-x-1">
+                                <button class="px-3 py-2 text-sm text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-lg">
+                                    <i class="fas fa-chevron-left"></i>
+                                </button>
+                                <button class="px-3 py-2 text-sm bg-blue-600 text-white rounded-lg">1</button>
+                                <button class="px-3 py-2 text-sm text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-lg">2</button>
+                                <button class="px-3 py-2 text-sm text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-lg">3</button>
+                                <span class="px-2 text-gray-500">...</span>
+                                <button class="px-3 py-2 text-sm text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-lg">10</button>
+                                <button class="px-3 py-2 text-sm text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-lg">
+                                    <i class="fas fa-chevron-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('tab-keluar').addEventListener('click', function() {
+            document.getElementById('tab-keluar').className = 'border-b-2 border-blue-500 py-4 px-1 text-sm font-medium text-blue-600';
+            document.getElementById('tab-batch').className = 'border-b-2 border-transparent py-4 px-1 text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300';
+            
+            document.getElementById('table-keluar').classList.remove('hidden');
+            document.getElementById('table-batch').classList.add('hidden');
+            
+            document.getElementById('pagination-info').textContent = 'Menampilkan 1 - 5 dari 5 data';
+        });
+
+        document.getElementById('tab-batch').addEventListener('click', function() {
+            document.getElementById('tab-batch').className = 'border-b-2 border-blue-500 py-4 px-1 text-sm font-medium text-blue-600';
+            document.getElementById('tab-keluar').className = 'border-b-2 border-transparent py-4 px-1 text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300';
+            
+            document.getElementById('table-batch').classList.remove('hidden');
+            document.getElementById('table-keluar').classList.add('hidden');
+            
+            document.getElementById('pagination-info').textContent = 'Menampilkan 1 - 4 dari 4 data';
+        });
+
+        document.querySelector('button[class*="text-red-600"]').addEventListener('click', function() {
+            const today = new Date().toISOString().split('T')[0];
+            document.querySelectorAll('input[type="date"]').forEach(input => {
+                input.value = today;
+            });
+            
+            document.querySelector('input[placeholder*="Cari"]').value = '';
+        });
+
+        document.querySelector('input[placeholder*="Cari"]').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const activeTable = document.getElementById('table-keluar').classList.contains('hidden') ? 
+                               document.getElementById('table-batch') : 
+                               document.getElementById('table-keluar');
+            
+            const rows = activeTable.querySelectorAll('tbody tr');
+            
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                if (text.includes(searchTerm)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+    </script>
+
+    <style>
+        .font-inter {
+            font-family: "Inter", sans-serif;
+        }
+    </style>
+</body>
+</html>
