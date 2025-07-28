@@ -1,48 +1,180 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-  <link rel="stylesheet" href="/src/css/variants.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modal Detail Resep</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .modal-overlay {
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        
+        .modal-content {
+            animation: modalSlideIn 0.3s ease-out;
+        }
+        
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
+        .fade-out {
+            animation: fadeOut 0.3s ease-out forwards;
+        }
+        
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+                transform: scale(1);
+            }
+            to {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+        }
+    </style>
 </head>
-<body>
-  <div class="hs-accordion" id="hs-basic-with-title-and-arrow-stretched-heading-two">
-    <button class="hs-accordion-toggle hs-accordion-active:text-blue-600 py-3 inline-flex items-center justify-between gap-x-3 w-full font-semibold text-start text-gray-800 hover:text-gray-500 rounded-lg disabled:opacity-50 disabled:pointer-events-none dark:hs-accordion-active:text-blue-500 dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:outline-hidden dark:focus:text-neutral-400" aria-expanded="false" aria-controls="hs-basic-with-title-and-arrow-stretched-collapse-two">
-      Tensi cukup tinggi, Hipertensi
-      <svg class="hs-accordion-active:hidden block size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="m6 9 6 6 6-6"></path>
-      </svg>
-      <svg class="hs-accordion-active:block hidden size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="m18 15-6-6-6 6"></path>
-      </svg>
-    </button>
-    <div id="hs-basic-with-title-and-arrow-stretched-collapse-two" class="hs-accordion-content hidden w-full overflow-hidden transition-[height] duration-300" role="region" aria-labelledby="hs-basic-with-title-and-arrow-stretched-heading-two">
-      <p class="mb-2"><strong>Diagnosis:</strong> Hipertensi Primer (I10)</p>
-      <p class="mb-2"><strong>Tekanan Darah:</strong> 160/95 mmHg</p>
-      <p class="mb-2"><strong>Nadi:</strong> 88 bpm</p>
-      <p class="mb-2"><strong>Suhu:</strong> 36.5°C</p>
-      <p class="mb-2"><strong>Resep:</strong> Amlodipine 5mg 1x1, Captopril 25mg 2x1</p>
-      <button onclick="openDetailModal(1)" class="text-blue-600 hover:underline">Lihat Detail Lengkap</button>
+<body class="bg-gray-100 p-4">
+    <!-- Button to open modal -->
+    <div class="flex justify-center items-center min-h-screen">
+        <button onclick="openModal()" class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg font-medium transition-colors">
+            Lihat Detail Resep
+        </button>
     </div>
-  </div>
 
-  <div class="hs-accordion" id="hs-basic-with-title-and-arrow-stretched-heading-three">
-    <button class="hs-accordion-toggle hs-accordion-active:text-blue-600 py-3 inline-flex items-center justify-between gap-x-3 w-full font-semibold text-start text-gray-800 hover:text-gray-500 rounded-lg disabled:opacity-50 disabled:pointer-events-none dark:hs-accordion-active:text-blue-500 dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:outline-hidden dark:focus:text-neutral-400" aria-expanded="false" aria-controls="hs-basic-with-title-and-arrow-stretched-collapse-three">
-      Accordion #3
-      <svg class="hs-accordion-active:hidden block size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="m6 9 6 6 6-6"></path>
-      </svg>
-      <svg class="hs-accordion-active:block hidden size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="m18 15-6-6-6 6"></path>
-      </svg>
-    </button>
-    <div id="hs-basic-with-title-and-arrow-stretched-collapse-three" class="hs-accordion-content hidden w-full overflow-hidden transition-[height] duration-300" role="region" aria-labelledby="hs-basic-with-title-and-arrow-stretched-heading-three">
-      <p class="text-gray-800 dark:text-neutral-200">
-        <em>This is the third item's accordion body.</em> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions.
-      </p>
+    <!-- Modal Overlay -->
+    <div id="modalOverlay" class="fixed inset-0 modal-overlay flex items-center justify-center z-50 hidden">
+        <div class="absolute inset-0" onclick="closeModal()"></div>
+        
+        <!-- Modal Content -->
+        <div id="modalContent" class="bg-white rounded-2xl shadow-2xl max-w-4xl w-full mx-4 max-h-[90vh] overflow-hidden modal-content relative">
+            <!-- Modal Header -->
+            <div class="px-8 py-6 border-b border-gray-200">
+                <div class="flex items-start justify-between">
+                    <div>
+                        <div class="flex items-center gap-3 mb-2">
+                            <h2 class="text-2xl font-bold text-gray-900">NY. Dewi Amalia</h2>
+                            <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-medium">AMI</span>
+                        </div>
+                        <p class="text-gray-600 text-sm">NRM. 000009</p>
+                        <p class="text-gray-600 text-sm">Tanggal Pesanan: 18 Juni 2025</p>
+                    </div>
+                    <button onclick="closeModal()" class="text-gray-400 hover:text-gray-600 transition-colors">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="px-8 py-6">
+                <div class="mb-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Resep 000001</h3>
+                </div>
+
+                <!-- Table -->
+                <div class="overflow-x-auto">
+                    <table class="w-full">
+                        <thead>
+                            <tr class="bg-gray-50">
+                                <th class="px-4 py-3 text-left text-sm font-medium text-gray-700 rounded-tl-lg">No</th>
+                                <th class="px-4 py-3 text-left text-sm font-medium text-gray-700">Nama Obat</th>
+                                <th class="px-4 py-3 text-left text-sm font-medium text-gray-700">Jumlah</th>
+                                <th class="px-4 py-3 text-left text-sm font-medium text-gray-700">Aturan Pakai</th>
+                                <th class="px-4 py-3 text-left text-sm font-medium text-gray-700 rounded-tr-lg">Catatan</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200">
+                            <tr class="hover:bg-gray-50 transition-colors">
+                                <td class="px-4 py-4 text-sm text-gray-900">1</td>
+                                <td class="px-4 py-4 text-sm text-gray-900">Amoxilin Trihydrate 500gr</td>
+                                <td class="px-4 py-4 text-sm text-gray-900">30 Tablet</td>
+                                <td class="px-4 py-4 text-sm text-gray-900">1 kali per dua hari 1 tablet</td>
+                                <td class="px-4 py-4 text-sm text-gray-900">Dihabiskan</td>
+                            </tr>
+                            <tr class="hover:bg-gray-50 transition-colors">
+                                <td class="px-4 py-4 text-sm text-gray-900">2</td>
+                                <td class="px-4 py-4 text-sm text-gray-900">Amoxilin Trihydrate 500gr</td>
+                                <td class="px-4 py-4 text-sm text-gray-900">30 Tablet</td>
+                                <td class="px-4 py-4 text-sm text-gray-900">1 kali per dua hari 1 tablet</td>
+                                <td class="px-4 py-4 text-sm text-gray-900">-</td>
+                            </tr>
+                            <tr class="hover:bg-gray-50 transition-colors">
+                                <td class="px-4 py-4 text-sm text-gray-900">3</td>
+                                <td class="px-4 py-4 text-sm text-gray-900">Amoxilin Trihydrate 500gr</td>
+                                <td class="px-4 py-4 text-sm text-gray-900">30 Tablet</td>
+                                <td class="px-4 py-4 text-sm text-gray-900">1 kali per dua hari 1 tablet</td>
+                                <td class="px-4 py-4 text-sm text-gray-900">-</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="px-8 py-6 border-t border-gray-200 flex justify-end gap-3">
+                <button onclick="printLabel()" class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg font-medium transition-colors flex items-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path>
+                    </svg>
+                    Print Label
+                </button>
+                <button onclick="closeModal()" class="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-lg font-medium transition-colors">
+                    Tutup
+                </button>
+            </div>
+        </div>
     </div>
-  </div>
-</div>
-<script src="https://cdn.jsdelivr.net/npm/preline/dist/preline.js"></script>
+
+    <script>
+        function openModal() {
+            const overlay = document.getElementById('modalOverlay');
+            const content = document.getElementById('modalContent');
+            
+            overlay.classList.remove('hidden');
+            content.classList.remove('fade-out');
+            
+            // Prevent body scroll
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            const overlay = document.getElementById('modalOverlay');
+            const content = document.getElementById('modalContent');
+            
+            content.classList.add('fade-out');
+            
+            setTimeout(() => {
+                overlay.classList.add('hidden');
+                content.classList.remove('fade-out');
+                // Restore body scroll
+                document.body.style.overflow = 'auto';
+            }, 300);
+        }
+
+        function printLabel() {
+            alert('Fungsi print label akan diimplementasikan');
+        }
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeModal();
+            }
+        });
+
+        // Prevent modal from closing when clicking inside modal content
+        document.getElementById('modalContent').addEventListener('click', function(event) {
+            event.stopPropagation();
+        });
+    </script>
+</body>
 </html>

@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Farmasi</title>
+    <style>
+        .modal-overlay {
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        
+        .modal-content {
+            animation: modalSlideIn 0.3s ease-out;
+        }
+        
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
+        .fade-out {
+            animation: fadeOut 0.3s ease-out forwards;
+        }
+        
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+                transform: scale(1);
+            }
+            to {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+        }
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'preline-blue': '#3b82f6',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50 font-sans">
+    <header class="bg-white shadow-sm border-b border-gray-200">
+            <div class="flex items-center justify-between px-6 py-4">
+                <div class="flex items-center space-x-3">
+                    <div class="w-8 h-8 bg-primary-blue rounded-lg flex items-center justify-center">
+                        <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"/>
+                        </svg>
+                    </div>
+                    <h1 class="text-xl font-semibold text-gray-800">SIMRS</h1>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <span class="text-sm text-gray-600">dr. Sho</span>
+                    <div class="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center">
+                        <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </header>
+    <div class="flex min-h-screen">
+        
+
+        <aside class="w-64 bg-sidebar-bg border-r border-gray-200">
+                <nav class="p-4">
+                    <div class="mb-6">
+                        <div class="flex items-center justify-between py-2 px-3 text-nav-text hover:text-gray-800 rounded-lg mb-2 cursor-pointer">
+                            <div class="flex items-center space-x-2">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z"/>
+                                </svg>
+                                <span class="text-sm font-medium">Dashboard</span>
+                            </div>
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                            </svg>
+                        </div>
+                    </div>
+                </nav>
+            </aside>
+
+        <!-- Main Content -->
+        <div class="flex-1 flex flex-col overflow-hidden">
+            <main class="flex-1 p-6">
+            <!-- Breadcrumb -->
+            <nav class="flex items-center space-x-2 text-sm text-gray-500 mb-6">
+                <span>Poli Penyakit Dalam</span>
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                </svg>
+                <span>Data Pasien</span>
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                </svg>
+                <span class="text-gray-800">Anjani Shatila</span>
+            </nav>
+
+            <!-- Dashboard Content -->
+            <main class="flex-1 overflow-y-auto p-6">
+                <h1 class="text-3xl font-bold text-gray-900 mb-6">Dashboard Farmasi</h1>
+                
+                <!-- Stats Cards Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                    <div class="bg-white border border-gray-200 rounded-lg p-6 h-32"></div>
+                    <div class="bg-white border border-gray-200 rounded-lg p-6 h-32"></div>
+                    <div class="bg-white border border-gray-200 rounded-lg p-6 h-32"></div>
+                    <div class="bg-white border border-gray-200 rounded-lg p-6 h-32"></div>
+                </div>
+
+                <!-- Data Table Section -->
+                <div class="bg-white border border-gray-200 rounded-lg overflow-hidden">
+                    <!-- Table Header -->
+                    <div class="px-6 py-4 border-b border-gray-200">
+                        <h2 class="text-lg font-semibold text-gray-900 mb-4">Data Pesanan Obat</h2>
+                        <div class="relative max-w-xs">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <svg class="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                                </svg>
+                            </div>
+                            <input type="text" id="searchInput" class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-sm" placeholder="Cari">
+                        </div>
+                    </div>
+
+                    <!-- Table -->
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">No. Resep</th>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Aksi</th>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tanggal Pesanan</th>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Resep</th>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">NRM</th>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Pasien</th>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">DPJP</th>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Harga</th>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tableBody" class="bg-white divide-y divide-gray-200">
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900">000001</td>
+                                    <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900">
+                                        <div class="relative inline-block text-left">
+                                            <button onclick="toggleDropdown(this)" class="inline-flex items-center justify-center w-6 h-6 text-gray-400 hover:text-gray-600 focus:outline-none">
+                                                <svg class="w-4 h-4 transform transition-transform duration-200" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                                                </svg>
+                                            </button>
+                                            <div class="hidden absolute left-0 z-10 mt-2 w-32 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                                <div class="py-1">
+                                                    <div onclick="openModal()" class="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer">Lihat Detail</div>
+                                                    <div onclick="showModal()" class="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer">Cetak</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900">18 Juni 2025</td>
+                                    <td class="px-4 py-4 text-sm text-gray-900">Amoxillin 30 tablet 1×1 Sesudah Makan</td>
+                                    <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900">123456</td>
+                                    <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900">Anjani Shatila</td>
+                                    <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900">dr. Sho</td>
+                                    <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900">Rp 0,-</td>
+                                    <td class="px-4 py-4 whitespace-nowrap">
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                            <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                            </svg>
+                                            Telah Diambil
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900">000002</td>
+                                    <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900">
+                                        <div class="relative inline-block text-left">
+                                            <button onclick="toggleDropdown(this)" class="inline-flex items-center justify-center w-6 h-6 text-gray-400 hover:text-gray-600 focus:outline-none">
+                                                <svg class="w-4 h-4 transform transition-transform duration-200" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                                                </svg>
+                                            </button>
+                                            <div class="hidden absolute left-0 z-10 mt-2 w-32 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                                <div class="py-1">
+                                                    <div onclick="openModal()" class="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer ">Lihat Detail</div>
+                                                    <div onclick="showModal()" class="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer">Cetak</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900">18 Juni 2025</td>
+                                    <td class="px-4 py-4 text-sm text-gray-900">Amoxillin 30 tablet 1×1 Sesudah Makan</td>
+                                    <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900">123456</td>
+                                    <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900">Anjani Shatila</td>
+                                    <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900">dr. Sho</td>
+                                    <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900">Rp 20.000,-</td>
+                                    <td class="px-4 py-4 whitespace-nowrap">
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                                            <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
+                                            </svg>
+                                            Dibatalkan
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900">000003</td>
+                                    <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900">
+                                        <div class="relative inline-block text-left">
+                                            <button onclick="toggleDropdown(this)" class="inline-flex items-center justify-center w-6 h-6 text-gray-400 hover:text-gray-600 focus:outline-none">
+                                                <svg class="w-4 h-4 transform rotate-180 transition-transform duration-200" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                                                </svg>
+                                            </button>
+                                            <div class="absolute left-0 z-10 mt-2 w-32 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                                <div class="py-1">
+                                                    <div onclick="openModal()" class="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer">Lihat Detail</div>
+                                                    <div onclick="showModal()" class="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer">Cetak</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900">18 Juni 2025</td>
+                                    <td class="px-4 py-4 text-sm text-gray-900">Amoxillin 30 tablet 1×1 Sesudah Makan</td>
+                                    <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900">123456</td>
+                                    <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900">Anjani Shatila</td>
+                                    <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900">dr. Sho</td>
+                                    <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900">Rp 156.000,-</td>
+                                    <td class="px-4 py-4 whitespace-nowrap">
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                                            <svg class="w-3 h-3 mr-1 animate-spin" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd"></path>
+                                            </svg>
+                                            Dalam Proses
+                                        </span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Pagination -->
+                    <div class="bg-white px-4 py-3 flex items-center justify-center border-t border-gray-200 sm:px-6">
+                        <div class="flex items-center space-x-2">
+                            <button class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                                <span class="sr-only">Previous</span>
+                                <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                </svg>
+                            </button>
+                            <button class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-blue-50 text-sm font-medium text-blue-600 hover:bg-blue-100">1</button>
+                            <button class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">2</button>
+                            <button class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">3</button>
+                            <span class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700">...</span>
+                            <button class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">10</button>
+                            <button class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                                <span class="sr-only">Next</span>
+                                <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+        <div id="modalOverlay" class="fixed inset-0 modal-overlay flex items-center justify-center z-50 hidden">
+        <div class="absolute inset-0" onclick="closeModal()"></div>
+        
+        <!-- Modal Content -->
+        <div id="modalContent" class="bg-white rounded-2xl shadow-2xl max-w-4xl w-full mx-4 max-h-[90vh] overflow-hidden modal-content relative">
+            <!-- Modal Header -->
+            <div class="px-8 py-6 border-b border-gray-200">
+                <div class="flex items-start justify-between">
+                    <div>
+                        <div class="flex items-center gap-3 mb-2">
+                            <h2 class="text-2xl font-bold text-gray-900">NY. Dewi Amalia</h2>
+                            <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-medium">AMI</span>
+                        </div>
+                        <p class="text-gray-600 text-sm">NRM. 000009</p>
+                        <p class="text-gray-600 text-sm">Tanggal Pesanan: 18 Juni 2025</p>
+                    </div>
+                    <button onclick="closeModal()" class="text-gray-400 hover:text-gray-600 transition-colors">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="px-8 py-6">
+                <div class="mb-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Resep 000001</h3>
+                </div>
+
+                <!-- Table -->
+                <div class="overflow-x-auto">
+                    <table class="w-full">
+                        <thead>
+                            <tr class="bg-gray-50">
+                                <th class="px-4 py-3 text-left text-sm font-medium text-gray-700 rounded-tl-lg">No</th>
+                                <th class="px-4 py-3 text-left text-sm font-medium text-gray-700">Nama Obat</th>
+                                <th class="px-4 py-3 text-left text-sm font-medium text-gray-700">Jumlah</th>
+                                <th class="px-4 py-3 text-left text-sm font-medium text-gray-700">Aturan Pakai</th>
+                                <th class="px-4 py-3 text-left text-sm font-medium text-gray-700 rounded-tr-lg">Catatan</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200">
+                            <tr class="hover:bg-gray-50 transition-colors">
+                                <td class="px-4 py-4 text-sm text-gray-900">1</td>
+                                <td class="px-4 py-4 text-sm text-gray-900">Amoxilin Trihydrate 500gr</td>
+                                <td class="px-4 py-4 text-sm text-gray-900">30 Tablet</td>
+                                <td class="px-4 py-4 text-sm text-gray-900">1 kali per dua hari 1 tablet</td>
+                                <td class="px-4 py-4 text-sm text-gray-900">Dihabiskan</td>
+                            </tr>
+                            <tr class="hover:bg-gray-50 transition-colors">
+                                <td class="px-4 py-4 text-sm text-gray-900">2</td>
+                                <td class="px-4 py-4 text-sm text-gray-900">Amoxilin Trihydrate 500gr</td>
+                                <td class="px-4 py-4 text-sm text-gray-900">30 Tablet</td>
+                                <td class="px-4 py-4 text-sm text-gray-900">1 kali per dua hari 1 tablet</td>
+                                <td class="px-4 py-4 text-sm text-gray-900">-</td>
+                            </tr>
+                            <tr class="hover:bg-gray-50 transition-colors">
+                                <td class="px-4 py-4 text-sm text-gray-900">3</td>
+                                <td class="px-4 py-4 text-sm text-gray-900">Amoxilin Trihydrate 500gr</td>
+                                <td class="px-4 py-4 text-sm text-gray-900">30 Tablet</td>
+                                <td class="px-4 py-4 text-sm text-gray-900">1 kali per dua hari 1 tablet</td>
+                                <td class="px-4 py-4 text-sm text-gray-900">-</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="px-8 py-6 border-t border-gray-200 flex justify-end gap-3">
+                <button onclick="showModal()" class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg font-medium transition-colors flex items-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path>
+                    </svg>
+                    Print Label
+                </button>
+                <button onclick="closeModal()" class="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-lg font-medium transition-colors">
+                    Tutup
+                </button>
+            </div>
+        </div>
+    </div>
+    <div 
+        id="modalOverlaySukses" 
+        class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 hidden"
+        onclick="hideModal()"
+    >
+        <div 
+            class="bg-white rounded-xl p-8 pb-6 shadow-2xl text-center min-w-80 max-w-md mx-4 modal-animate"
+            onclick="event.stopPropagation()"
+        >
+            <!-- Success Icon -->
+            <div class="mb-6">
+                <div class="w-16 h-16 bg-blue-500 rounded-full flex items-center justify-center mx-auto">
+                    <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                </div>
+            </div>
+            
+            <!-- Title -->
+            <h2 class="text-2xl font-semibold text-gray-900 mb-2">Sukses</h2>
+            
+            <!-- Subtitle -->
+            <p class="text-sm text-gray-500 mb-8">Label berhasil dicetak</p>
+            
+            <!-- OK Button -->
+            <button 
+                class="w-full bg-blue-500 hover:bg-blue-600 active:bg-blue-700 text-white font-medium py-3 px-4 rounded-lg transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0 focus:outline-none focus:ring-4 focus:ring-blue-300"
+                onclick="hideModal()"
+            >
+                Oke
+            </button>
+        </div>
+    </div>
+    </div>
+
+    <script>
+        // Toggle dropdown functionality
+function toggleDropdown(button) {
+    const dropdown = button.nextElementSibling;
+    const icon = button.querySelector('svg');
+    const isVisible = !dropdown.classList.contains('hidden');
+    
+    // Close all other dropdowns
+    document.querySelectorAll('[onclick="toggleDropdown(this)"]').forEach(btn => {
+        const otherDropdown = btn.nextElementSibling;
+        const otherIcon = btn.querySelector('svg');
+        if (btn !== button) {
+            otherDropdown.classList.add('hidden');
+            otherIcon.classList.remove('rotate-180');
+        }
+    });
+    
+    // Toggle current dropdown
+    if (isVisible) {
+        dropdown.classList.add('hidden');
+        icon.classList.remove('rotate-180');
+    } else {
+        dropdown.classList.remove('hidden');
+        icon.classList.add('rotate-180');
+    }
+}
+
+// Close dropdowns when clicking outside
+document.addEventListener('click', function(event) {
+    if (!event.target.closest('[onclick="toggleDropdown(this)"]') && 
+        !event.target.closest('.absolute')) {
+        document.querySelectorAll('[onclick="toggleDropdown(this)"]').forEach(btn => {
+            const dropdown = btn.nextElementSibling;
+            const icon = btn.querySelector('svg');
+            dropdown.classList.add('hidden');
+            icon.classList.remove('rotate-180');
+        });
+    }
+});
+
+// Search functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('searchInput');
+    if (searchInput) {
+        searchInput.addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const rows = document.querySelectorAll('#tableBody tr');
+            let visibleCount = 0;
+            
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                if (text.includes(searchTerm)) {
+                    row.style.display = '';
+                    visibleCount++;
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+            
+            // Update pagination if no results found
+            updatePaginationVisibility(visibleCount);
+        });
+    }
+});
+
+// Pagination functionality
+let currentPage = 1;
+const rowsPerPage = 10; // Adjust as needed
+
+function updatePaginationVisibility(visibleCount) {
+    const paginationContainer = document.querySelector('.pagination-container');
+    if (paginationContainer) {
+        if (visibleCount === 0) {
+            paginationContainer.style.display = 'none';
+        } else {
+            paginationContainer.style.display = 'flex';
+        }
+    }
+}
+
+function initializePagination() {
+    const rows = document.querySelectorAll('#tableBody tr');
+    const totalPages = Math.ceil(rows.length / rowsPerPage);
+    
+    // Show/hide rows based on current page
+    function showPage(page) {
+        const startIndex = (page - 1) * rowsPerPage;
+        const endIndex = startIndex + rowsPerPage;
+        
+        rows.forEach((row, index) => {
+            if (index >= startIndex && index < endIndex) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    }
+    
+    // Add event listeners to pagination buttons
+    document.querySelectorAll('button').forEach(btn => {
+        if (btn.textContent.match(/^\d+$/)) {
+            btn.addEventListener('click', function() {
+                const pageNum = parseInt(this.textContent);
+                currentPage = pageNum;
+                
+                // Remove active state from all page buttons
+                document.querySelectorAll('button').forEach(b => {
+                    if (b.textContent.match(/^\d+$/)) {
+                        b.classList.remove('bg-blue-50', 'text-blue-600', 'border-blue-500');
+                        b.classList.add('bg-white', 'text-gray-700', 'border-gray-300');
+                    }
+                });
+                
+                // Add active state to clicked button
+                this.classList.remove('bg-white', 'text-gray-700', 'border-gray-300');
+                this.classList.add('bg-blue-50', 'text-blue-600', 'border-blue-500');
+                
+                // Show corresponding page
+                showPage(pageNum);
+            });
+        }
+    });
+    
+    // Handle Previous button
+    const prevButton = document.querySelector('button[onclick*="previous"], button:contains("Previous")');
+    if (prevButton) {
+        prevButton.addEventListener('click', function() {
+            if (currentPage > 1) {
+                currentPage--;
+                showPage(currentPage);
+                updatePaginationButtons();
+            }
+        });
+    }
+    
+    // Handle Next button
+    const nextButton = document.querySelector('button[onclick*="next"], button:contains("Next")');
+    if (nextButton) {
+        nextButton.addEventListener('click', function() {
+            if (currentPage < totalPages) {
+                currentPage++;
+                showPage(currentPage);
+                updatePaginationButtons();
+            }
+        });
+    }
+    
+    // Initialize first page
+    showPage(1);
+}
+
+function updatePaginationButtons() {
+    document.querySelectorAll('button').forEach(btn => {
+        if (btn.textContent.match(/^\d+$/)) {
+            const pageNum = parseInt(btn.textContent);
+            if (pageNum === currentPage) {
+                btn.classList.remove('bg-white', 'text-gray-700', 'border-gray-300');
+                btn.classList.add('bg-blue-50', 'text-blue-600', 'border-blue-500');
+            } else {
+                btn.classList.remove('bg-blue-50', 'text-blue-600', 'border-blue-500');
+                btn.classList.add('bg-white', 'text-gray-700', 'border-gray-300');
+            }
+        }
+    });
+}
+
+// Sorting functionality
+function sortTable(columnIndex, direction = 'asc') {
+    const tbody = document.querySelector('#tableBody');
+    const rows = Array.from(tbody.querySelectorAll('tr'));
+    
+    rows.sort((a, b) => {
+        const aVal = a.cells[columnIndex].textContent.trim();
+        const bVal = b.cells[columnIndex].textContent.trim();
+        
+        // Check if values are numbers
+        const aNum = parseFloat(aVal.replace(/[^\d.-]/g, ''));
+        const bNum = parseFloat(bVal.replace(/[^\d.-]/g, ''));
+        
+        if (!isNaN(aNum) && !isNaN(bNum)) {
+            return direction === 'asc' ? aNum - bNum : bNum - aNum;
+        } else {
+            return direction === 'asc' 
+                ? aVal.localeCompare(bVal) 
+                : bVal.localeCompare(aVal);
+        }
+    });
+    
+    // Reappend sorted rows
+    rows.forEach(row => tbody.appendChild(row));
+}
+
+// Add sort functionality to table headers
+function initializeTableSorting() {
+    const headers = document.querySelectorAll('th[data-sortable="true"], th.sortable');
+    headers.forEach((header, index) => {
+        header.style.cursor = 'pointer';
+        header.addEventListener('click', function() {
+            const currentDirection = this.getAttribute('data-sort-direction') || 'asc';
+            const newDirection = currentDirection === 'asc' ? 'desc' : 'asc';
+            
+            // Reset all headers
+            headers.forEach(h => {
+                h.removeAttribute('data-sort-direction');
+                h.classList.remove('sort-asc', 'sort-desc');
+            });
+            
+            // Set current header
+            this.setAttribute('data-sort-direction', newDirection);
+            this.classList.add(`sort-${newDirection}`);
+            
+            sortTable(index, newDirection);
+        });
+    });
+}
+
+// Row selection functionality
+function initializeRowSelection() {
+    const selectAllCheckbox = document.querySelector('#selectAll');
+    const rowCheckboxes = document.querySelectorAll('input[type="checkbox"]:not(#selectAll)');
+    
+    if (selectAllCheckbox) {
+        selectAllCheckbox.addEventListener('change', function() {
+            rowCheckboxes.forEach(checkbox => {
+                checkbox.checked = this.checked;
+                updateRowSelection(checkbox);
+            });
+        });
+    }
+    
+    rowCheckboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', function() {
+            updateRowSelection(this);
+            updateSelectAllState();
+        });
+    });
+}
+
+function updateRowSelection(checkbox) {
+    const row = checkbox.closest('tr');
+    if (checkbox.checked) {
+        row.classList.add('bg-blue-50', 'selected');
+    } else {
+        row.classList.remove('bg-blue-50', 'selected');
+    }
+}
+
+function updateSelectAllState() {
+    const selectAllCheckbox = document.querySelector('#selectAll');
+    const rowCheckboxes = document.querySelectorAll('input[type="checkbox"]:not(#selectAll)');
+    const checkedCount = document.querySelectorAll('input[type="checkbox"]:not(#selectAll):checked').length;
+    
+    if (selectAllCheckbox) {
+        if (checkedCount === 0) {
+            selectAllCheckbox.indeterminate = false;
+            selectAllCheckbox.checked = false;
+        } else if (checkedCount === rowCheckboxes.length) {
+            selectAllCheckbox.indeterminate = false;
+            selectAllCheckbox.checked = true;
+        } else {
+            selectAllCheckbox.indeterminate = true;
+        }
+    }
+}
+
+// Modal functionality
+function openModal(modalId) {
+    const modal = document.getElementById(modalId);
+    if (modal) {
+        modal.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+    }
+}
+
+function closeModal(modalId) {
+    const modal = document.getElementById(modalId);
+    if (modal) {
+        modal.classList.add('hidden');
+        document.body.style.overflow = 'auto';
+    }
+}
+
+// Close modal when clicking outside
+document.addEventListener('click', function(event) {
+    if (event.target.classList.contains('modal-backdrop')) {
+        const modal = event.target;
+        modal.classList.add('hidden');
+        document.body.style.overflow = 'auto';
+    }
+});
+
+// Initialize all functionality when DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    initializePagination();
+    initializeTableSorting();
+    initializeRowSelection();
+    
+    // Add escape key listener for modals
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape') {
+            const openModal = document.querySelector('.modal:not(.hidden)');
+            if (openModal) {
+                openModal.classList.add('hidden');
+                document.body.style.overflow = 'auto';
+            }
+        }
+    });
+});
+
+// Utility functions
+function showNotification(message, type = 'info') {
+    const notification = document.createElement('div');
+    notification.className = `fixed top-4 right-4 p-4 rounded-lg shadow-lg z-50 ${
+        type === 'success' ? 'bg-green-500 text-white' :
+        type === 'error' ? 'bg-red-500 text-white' :
+        type === 'warning' ? 'bg-yellow-500 text-black' :
+        'bg-blue-500 text-white'
+    }`;
+    notification.textContent = message;
+    
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        notification.remove();
+    }, 3000);
+}
+
+function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
+}
+function openModal() {
+            const overlay = document.getElementById('modalOverlay');
+            const content = document.getElementById('modalContent');
+            
+            overlay.classList.remove('hidden');
+            content.classList.remove('fade-out');
+            
+            // Prevent body scroll
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            const overlay = document.getElementById('modalOverlay');
+            const content = document.getElementById('modalContent');
+            
+            content.classList.add('fade-out');
+            
+            setTimeout(() => {
+                overlay.classList.add('hidden');
+                content.classList.remove('fade-out');
+                // Restore body scroll
+                document.body.style.overflow = 'auto';
+            }, 300);
+        }
+
+        function printLabel() {
+            alert('Fungsi print label akan diimplementasikan');
+        }
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeModal();
+            }
+        });
+
+        // Prevent modal from closing when clicking inside modal content
+        document.getElementById('modalContent').addEventListener('click', function(event) {
+            event.stopPropagation();
+        });
+        function showModal() {
+            document.getElementById('modalOverlaySukses').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function hideModal() {
+            document.getElementById('modalOverlaySukses').classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                hideModal();
+            }
+        });
+    </script>
+</body> 
+</html>

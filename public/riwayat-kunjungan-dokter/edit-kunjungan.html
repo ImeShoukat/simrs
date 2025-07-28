@@ -330,7 +330,7 @@ Pertimbangan banding: Cervicogenic headache, sinusitis ringan (jika ada pilek)</
     tindakanLanjut.addEventListener('change', function () {
         const val = this.value;
         
-        // Reset all
+
         rujukSection.classList.add('hidden');
         rujukPoli.classList.add('hidden');
         rujukRS.classList.add('hidden');
@@ -352,7 +352,7 @@ Pertimbangan banding: Cervicogenic headache, sinusitis ringan (jika ada pilek)</
         }
     });
 
-    // Resep functionality
+
 const resepModal = document.getElementById('resepModal');
 const tambahResepBtn = document.getElementById('tambahResepBtn');
 const closeModal = document.getElementById('closeModal');
@@ -363,18 +363,16 @@ const resepList = document.getElementById('resepList');
 let resepData = [];
 let editingIndex = -1;
 
-// Show modal
+
 tambahResepBtn.addEventListener('click', function() {
     resepModal.classList.remove('hidden');
     resetForm();
     editingIndex = -1;
 });
 
-// Close modal
 closeModal.addEventListener('click', closeResepModal);
 cancelResep.addEventListener('click', closeResepModal);
 
-// Close modal when clicking outside
 resepModal.addEventListener('click', function(e) {
     if (e.target === resepModal) {
         closeResepModal();
@@ -395,7 +393,6 @@ function resetForm() {
     document.getElementById('catatan').value = '';
 }
 
-// Submit resep form
 resepForm.addEventListener('submit', function(e) {
     e.preventDefault();
     
@@ -482,7 +479,6 @@ function renderResepList() {
     });
 }
 
-// Edit resep function
 function editResep(index) {
     const resep = resepData[index];
     
@@ -497,7 +493,6 @@ function editResep(index) {
     resepModal.classList.remove('hidden');
 }
 
-// Delete resep function
 function deleteResep(index) {
     if (confirm('Apakah Anda yakin ingin menghapus resep ini?')) {
         resepData.splice(index, 1);
@@ -505,12 +500,9 @@ function deleteResep(index) {
     }
 }
 
-// Initialize the page
 document.addEventListener('DOMContentLoaded', function() {
     renderResepList();
 });
-
-// Optional: Add search functionality
 function searchResep(searchTerm) {
     const filteredData = resepData.filter(resep => 
         resep.namaObat.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -518,14 +510,12 @@ function searchResep(searchTerm) {
         resep.frekuensi.toLowerCase().includes(searchTerm.toLowerCase())
     );
     
-    // Temporarily store original data
     const originalData = resepData;
     resepData = filteredData;
     renderResepList();
     resepData = originalData;
 }
 
-// Optional: Export resep data
 function exportResepData() {
     const dataStr = JSON.stringify(resepData, null, 2);
     const dataBlob = new Blob([dataStr], {type: 'application/json'});
@@ -540,7 +530,6 @@ function exportResepData() {
     URL.revokeObjectURL(url);
 }
 
-// Optional: Import resep data
 function importResepData(fileInput) {
     const file = fileInput.files[0];
     if (file) {
