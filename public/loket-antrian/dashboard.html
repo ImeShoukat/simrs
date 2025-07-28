@@ -780,14 +780,13 @@
       // Sistem Manajemen Antrian
       class QueueSystem {
         constructor() {
-          this.currentQueue =
-            parseInt(localStorage.getItem("currentQueue")) || 1;
-          this.totalQueue = parseInt(localStorage.getItem("totalQueue")) || 50;
+          this.currentQueue = 1;
+          this.totalQueue = 50;
           this.lokets = {
             1: {
               status: "active",
-              currentNumber: this.currentQueue,
-              remaining: Math.max(0, this.totalQueue - this.currentQueue),
+              currentNumber: 1,
+              remaining: 49,
             },
             2: { status: "active", currentNumber: 0, remaining: 0 },
             3: { status: "active", currentNumber: 0, remaining: 0 },
@@ -800,16 +799,13 @@
         }
 
         init() {
-          // Perbaikan: Pastikan updateDisplay dipanggil setelah DOM ready
           if (document.readyState === "loading") {
             document.addEventListener("DOMContentLoaded", () => {
               this.updateDisplay();
-              this.loadLoketData();
               this.loadVoices();
             });
           } else {
             this.updateDisplay();
-            this.loadLoketData();
             this.loadVoices();
           }
         }
@@ -853,10 +849,10 @@
           const nextBtn = document.getElementById("nextBtn");
 
           if (nextBtn) {
-            if (this.lokets[this.currentLoket].remaining <= 0) {
+            if (this.currentQueue >= this.totalQueue) {
               nextBtn.disabled = true;
               nextBtn.classList.add("opacity-50", "cursor-not-allowed");
-              nextBtn.title = "Tidak ada antrian lagi";
+              nextBtn.title = "Antrian sudah mencapai maksimal";
             } else {
               nextBtn.disabled = false;
               nextBtn.classList.remove("opacity-50", "cursor-not-allowed");
@@ -878,35 +874,11 @@
         }
 
         loadLoketData() {
-          const savedLokets = localStorage.getItem("loketData");
-          if (savedLokets) {
-            try {
-              this.lokets = JSON.parse(savedLokets);
-            } catch (e) {
-              console.error("Error parsing loket data:", e);
-            }
-          }
-          const savedTotal = localStorage.getItem("totalQueue");
-          if (savedTotal) {
-            this.totalQueue = parseInt(savedTotal);
-          }
+          // Removed localStorage dependency
         }
 
         saveLoketData() {
-          const loketDataNew = JSON.stringify(this.lokets);
-          const loketDataOld = JSON.stringify({
-            loket1: this.lokets[1]?.currentNumber || 0,
-            loket2: this.lokets[2]?.currentNumber || 0,
-            loket3: this.lokets[3]?.currentNumber || 0,
-            loket4: this.lokets[4]?.currentNumber || 0,
-            loket5: this.lokets[5]?.currentNumber || 0,
-          });
-
-          localStorage.setItem("loketData", loketDataNew);
-          localStorage.setItem("loketDataOld", loketDataOld);
-          localStorage.setItem("currentQueue", this.currentQueue.toString());
-          localStorage.setItem("currentNumber", this.currentQueue.toString());
-          localStorage.setItem("totalQueue", this.totalQueue.toString());
+          // Removed localStorage dependency  
         }
 
         callNextQueue() {
@@ -920,21 +892,25 @@
             return;
           }
 
-          // Perbaikan: Increment queue terlebih dahulu
+          console.log(`[Dashboard] Calling next queue from ${this.currentQueue} to ${this.currentQueue + 1}`);
+          
           this.currentQueue++;
 
-          // Update data loket dengan perhitungan yang benar
           this.lokets[this.currentLoket].currentNumber = this.currentQueue;
           this.lokets[this.currentLoket].remaining = Math.max(
             0,
             this.totalQueue - this.currentQueue
           );
 
-          // Update display dan simpan data
           this.updateDisplay();
-          this.saveLoketData();
           this.announceQueue();
           this.broadcastUpdate();
+          
+          console.log(`[Dashboard] Queue updated:`, {
+            currentQueue: this.currentQueue,
+            currentLoket: this.currentLoket,
+            remaining: this.lokets[this.currentLoket].remaining
+          });
         }
 
         // Fungsi untuk mengkonversi angka ke bahasa Indonesia yang natural
@@ -1002,7 +978,6 @@
           if ("speechSynthesis" in window) {
             window.speechSynthesis.cancel();
 
-            // Gunakan fungsi numberToIndonesian untuk pengucapan yang natural
             const queueInIndonesian = this.numberToIndonesian(
               this.currentQueue
             );
@@ -1015,20 +990,23 @@
             );
 
             speech.lang = "id-ID";
-            speech.rate = 0.8;
+            speech.rate = 0.7;
             speech.pitch = 1;
             speech.volume = 1;
 
-            const voices = this.voices || window.speechSynthesis.getVoices();
+            const voices = speechSynthesis.getVoices();
             const indonesianVoice = voices.find(
               (voice) =>
-                voice.lang.includes("id") ||
-                voice.name.toLowerCase().includes("indo") ||
-                voice.lang.includes("ID")
+                voice.lang === "id-ID" ||
+                voice.lang === "id" ||
+                voice.name.toLowerCase().includes("indonesia") ||
+                voice.name.toLowerCase().includes("indo")
             );
 
             if (indonesianVoice) {
               speech.voice = indonesianVoice;
+            } else {
+              speech.lang = "id-ID";
             }
 
             speech.onerror = function (event) {
@@ -1075,16 +1053,12 @@
           );
           if (!confirmed) return;
 
-          // Perbaikan: Reset ke nilai awal yang benar
           this.currentQueue = 1;
           this.totalQueue = 50;
           this.lokets[this.currentLoket].currentNumber = this.currentQueue;
-          this.lokets[this.currentLoket].remaining =
-            this.totalQueue - this.currentQueue; // Perbaikan: hapus +1
+          this.lokets[this.currentLoket].remaining = this.totalQueue - this.currentQueue;
 
-          // Update display dan simpan data
           this.updateDisplay();
-          this.saveLoketData();
           this.broadcastUpdate();
 
           alert("Antrian telah direset ke nomor 001.");
@@ -1099,21 +1073,49 @@
             loketData: this.lokets,
           };
 
-          localStorage.setItem("queueUpdate", JSON.stringify(updateData));
-          localStorage.setItem("currentNumber", this.currentQueue.toString());
-          localStorage.setItem("loketData", JSON.stringify(this.lokets));
+          console.log(`[Dashboard] Broadcasting update:`, updateData);
 
           window.dispatchEvent(
-            new StorageEvent("storage", {
-              key: "queueUpdate",
-              newValue: JSON.stringify(updateData),
+            new CustomEvent("queueUpdate", {
+              detail: updateData
             })
           );
+
+          localStorage.setItem("dashboardQueueUpdate", JSON.stringify(updateData));
+
+          if (window.opener || window.parent !== window) {
+            const message = {
+              type: 'queueUpdate',
+              data: updateData
+            };
+            
+            if (window.opener) {
+              window.opener.postMessage(message, '*');
+            }
+            if (window.parent !== window) {
+              window.parent.postMessage(message, '*');
+            }
+          }
+
+          if (window.queueDisplaySystem) {
+            window.queueDisplaySystem.updateFromDashboard(updateData);
+          }
         }
       }
 
-      // Inisialisasi sistem antrian
       const queueSystem = new QueueSystem();
+
+      function callNextQueueFunction() {
+        queueSystem.callNextQueue();
+      }
+
+      function repeatCallFunction() {
+        queueSystem.repeatCall();
+      }
+
+      function resetQueueFunction() {
+        queueSystem.resetQueue();
+      }
 
       // Data mapping dokter per poliklinik
       const doctorsByClinic = {

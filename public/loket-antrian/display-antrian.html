@@ -182,12 +182,11 @@
     </main>
 
     <script>
-      // Queue Information System
       class QueueInfoSystem {
         constructor() {
-          this.currentQueue = parseInt(localStorage.getItem("currentQueue")) || 1;
-          this.loketQueues = JSON.parse(localStorage.getItem("loketData")) || {
-            1: { status: 'active', currentNumber: 0, remaining: 0 },
+          this.currentQueue = 1;
+          this.loketQueues = {
+            1: { status: 'active', currentNumber: 1, remaining: 49 },
             2: { status: 'active', currentNumber: 0, remaining: 0 },
             3: { status: 'active', currentNumber: 0, remaining: 0 },
             4: { status: 'active', currentNumber: 0, remaining: 0 },
@@ -198,20 +197,19 @@
         }
 
         init() {
+          console.log(`[Display] Initializing Queue Display System...`);
           this.updateDisplay();
           this.updateTime();
           this.setupEventListeners();
           this.loadVoices();
 
-          // Update time every second
           setInterval(() => this.updateTime(), 1000);
           
-          // Check for updates every 2 seconds
-          setInterval(() => this.checkForUpdates(), 2000);
+          console.log(`[Display] Queue Display System initialized successfully`);
+          console.log(`[Display] Initial state - Queue: ${this.currentQueue}, Loket: ${this.currentLoket}`);
         }
 
         loadVoices() {
-          // Load voices when available
           if ('speechSynthesis' in window) {
             speechSynthesis.onvoiceschanged = () => {
               this.voices = speechSynthesis.getVoices();
@@ -220,71 +218,121 @@
         }
 
         setupEventListeners() {
-          // Listen for queue updates from dashboard
-          window.addEventListener("storage", (e) => {
-            if (e.key === "queueUpdate") {
-              this.handleQueueUpdate(e.newValue);
-            } else if (e.key === "currentQueue" || e.key === "loketData") {
-              this.checkForUpdates();
+          console.log(`[Display] Setting up event listeners...`);
+          
+          window.addEventListener("queueUpdate", (e) => {
+            console.log(`[Display] Received CustomEvent queueUpdate:`, e.detail);
+            this.handleQueueUpdate(e.detail);
+          });
+
+          window.addEventListener("message", (e) => {
+            console.log(`[Display] Received postMessage:`, e.data);
+            if (e.data && e.data.type === 'queueUpdate') {
+              this.handleQueueUpdate(e.data.data);
             }
           });
+
+          window.addEventListener("storage", (e) => {
+            console.log(`[Display] Received storage event - key: ${e.key}`);
+            if (e.key === "dashboardQueueUpdate") {
+              try {
+                const data = JSON.parse(e.newValue);
+                console.log(`[Display] Parsed storage data:`, data);
+                this.handleQueueUpdate(data);
+              } catch (error) {
+                console.error("Error parsing dashboard update:", error);
+              }
+            }
+          });
+          
+          console.log(`[Display] Event listeners setup complete`);
+        }
+
+        updateFromDashboard(updateData) {
+          const oldQueue = this.currentQueue;
+          
+          this.currentQueue = updateData.currentNumber;
+          this.currentLoket = updateData.loket;
+          
+          if (updateData.loketData) {
+            this.loketQueues = updateData.loketData;
+          }
+          
+          this.updateDisplay();
+          
+          if (oldQueue !== this.currentQueue) {
+            this.playAnnouncement();
+          }
         }
 
         handleQueueUpdate(data) {
           if (data) {
-            try {
-              const updateInfo = JSON.parse(data);
-              const oldQueue = this.currentQueue;
-              
-              this.currentQueue = updateInfo.currentNumber;
-              this.currentLoket = updateInfo.loket;
-              
-              if (updateInfo.loketData) {
-                this.loketQueues = updateInfo.loketData;
-              }
-              
-              this.updateDisplay();
-              
-              // Play announcement if queue number changed
-              if (oldQueue !== this.currentQueue) {
-                this.playAnnouncement();
-              }
-            } catch (error) {
-              console.error("Error parsing queue update:", error);
+            console.log(`[Display] Received queue update:`, data);
+            
+            const oldQueue = this.currentQueue;
+            const oldLoket = this.currentLoket;
+            
+            this.currentQueue = data.currentNumber;
+            this.currentLoket = data.loket;
+            
+            if (data.loketData) {
+              this.loketQueues = data.loketData;
+              console.log(`[Display] Updated loket data:`, this.loketQueues);
+            }
+            
+            this.updateDisplay();
+            
+            if (oldQueue !== this.currentQueue) {
+              console.log(`[Display] Queue changed from ${oldQueue} to ${this.currentQueue}, playing announcement`);
+              this.playAnnouncement();
             }
           }
         }
 
-        checkForUpdates() {
-          const storedQueue = parseInt(localStorage.getItem("currentQueue"));
-          const storedLoketData = JSON.parse(localStorage.getItem("loketData"));
+        numberToIndonesian(num) {
+          const units = [
+            "", "satu", "dua", "tiga", "empat", "lima", "enam", "tujuh", "delapan", "sembilan"
+          ];
+          const teens = [
+            "sepuluh", "sebelas", "dua belas", "tiga belas", "empat belas", "lima belas", 
+            "enam belas", "tujuh belas", "delapan belas", "sembilan belas"
+          ];
+          const tens = [
+            "", "", "dua puluh", "tiga puluh", "empat puluh", "lima puluh", 
+            "enam puluh", "tujuh puluh", "delapan puluh", "sembilan puluh"
+          ];
 
-          let hasUpdate = false;
-
-          if (storedQueue && storedQueue !== this.currentQueue) {
-            this.currentQueue = storedQueue;
-            hasUpdate = true;
+          if (num === 0) return "nol";
+          if (num < 10) return units[num];
+          if (num === 10) return "sepuluh";
+          if (num === 11) return "sebelas";
+          if (num < 20) return teens[num - 10];
+          if (num < 100) {
+            const ten = Math.floor(num / 10);
+            const unit = num % 10;
+            return tens[ten] + (unit > 0 ? " " + units[unit] : "");
           }
-
-          if (storedLoketData) {
-            this.loketQueues = storedLoketData;
-            hasUpdate = true;
+          if (num < 1000) {
+            const hundred = Math.floor(num / 100);
+            const remainder = num % 100;
+            let result = hundred === 1 ? "seratus" : units[hundred] + " ratus";
+            if (remainder > 0) {
+              result += " " + this.numberToIndonesian(remainder);
+            }
+            return result;
           }
-
-          if (hasUpdate) {
-            this.updateDisplay();
-          }
+          return String(num);
         }
 
         updateDisplay() {
-          // Update main queue display
+          console.log(`[Display] Updating display - Queue: ${this.currentQueue}, Loket: ${this.currentLoket}`);
+          
           const currentQueueElement = document.getElementById("current-queue");
           if (currentQueueElement) {
             currentQueueElement.textContent = String(this.currentQueue).padStart(3, "0");
           }
 
-          // Find target loket (the one with current queue number)
-          let targetLoket = 1;
+          let targetLoket = this.currentLoket;
           Object.entries(this.loketQueues).forEach(([loket, data]) => {
             const loketNum = parseInt(loket);
             if (data.currentNumber === this.currentQueue) {
@@ -297,14 +345,12 @@
             nextLoketElement.textContent = targetLoket;
           }
 
-          // Update individual loket displays
           for (let i = 1; i <= 5; i++) {
             const loketElement = document.getElementById(`loket${i}`);
             if (loketElement && this.loketQueues[i]) {
               const queueNumber = this.loketQueues[i].currentNumber || 0;
               loketElement.textContent = String(queueNumber).padStart(3, "0");
               
-              // Add highlight effect for current active loket
               const loketCard = loketElement.closest('.bg-white');
               if (loketCard) {
                 if (i === targetLoket && queueNumber === this.currentQueue) {
@@ -315,38 +361,44 @@
               }
             }
           }
+          
+          console.log(`[Display] Display updated - Current queue shown: ${this.currentQueue}, Target loket: ${targetLoket}`);
         }
 
         playAnnouncement() {
           if ('speechSynthesis' in window) {
-            // Stop any current speech
             window.speechSynthesis.cancel();
             
+            const queueInIndonesian = this.numberToIndonesian(this.currentQueue);
+            const loketInIndonesian = this.numberToIndonesian(this.currentLoket);
+            
             const speech = new SpeechSynthesisUtterance(
-              `Nomor antrian ${this.currentQueue}, silakan menuju loket ${this.currentLoket}`
+              `Nomor antrian ${queueInIndonesian}, silakan menuju loket ${loketInIndonesian}`
             );
             
             speech.lang = 'id-ID';
-            speech.rate = 0.8;
+            speech.rate = 0.7;
             speech.pitch = 1;
             speech.volume = 1;
             
-            // Use Indonesian voice if available
-            if (this.voices) {
-              const indonesianVoice = this.voices.find(voice => 
-                voice.lang.includes('id') || 
-                voice.name.toLowerCase().includes('indo')
-              );
-              if (indonesianVoice) {
-                speech.voice = indonesianVoice;
-              }
+            const voices = speechSynthesis.getVoices();
+            const indonesianVoice = voices.find(voice => 
+              voice.lang === 'id-ID' ||
+              voice.lang === 'id' ||
+              voice.name.toLowerCase().includes('indonesia') ||
+              voice.name.toLowerCase().includes('indo')
+            );
+            
+            if (indonesianVoice) {
+              speech.voice = indonesianVoice;
+            } else {
+              speech.lang = 'id-ID';
             }
             
             speech.onerror = function(event) {
               console.error('Speech synthesis error:', event.error);
             };
             
-            // Speak with delay
             setTimeout(() => {
               window.speechSynthesis.speak(speech);
             }, 200);
@@ -376,9 +428,8 @@
         }
       }
 
-      // Initialize the system
       document.addEventListener("DOMContentLoaded", () => {
-        new QueueInfoSystem();
+        window.queueDisplaySystem = new QueueInfoSystem();
       });
     </script>
   </body>
