@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIMRS - Dashboard Dokter</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'preline-blue': '#3b82f6',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50 font-sans">
+    <header class="bg-white shadow-sm border-b border-gray-200">
+            <div class="flex items-center justify-between px-6 py-4">
+                <div class="flex items-center space-x-3">
+                    <div class="w-8 h-8 bg-primary-blue rounded-lg flex items-center justify-center">
+                        <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"/>
+                        </svg>
+                    </div>
+                    <h1 class="text-xl font-semibold text-gray-800">SIMRS</h1>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <span class="text-sm text-gray-600">dr. Sho</span>
+                    <div class="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center">
+                        <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </header>
+    <div class="flex min-h-screen">
+        
+
+        <aside class="w-64 bg-sidebar-bg border-r border-gray-200">
+                <nav class="p-4">
+                    <div class="mb-6">
+                        <div class="flex items-center justify-between py-2 px-3 text-nav-text hover:text-gray-800 rounded-lg mb-2 cursor-pointer">
+                            <div class="flex items-center space-x-2">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z"/>
+                                </svg>
+                                <span class="text-sm font-medium">Dashboard</span>
+                            </div>
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                            </svg>
+                        </div>
+                    </div>
+                </nav>
+            </aside>
+
+        <!-- Main Content -->
+        <div class="flex-1 flex flex-col overflow-hidden">
+            <main class="flex-1 p-6">
+            <!-- Breadcrumb -->
+            <nav class="flex items-center space-x-2 text-sm text-gray-500 mb-6">
+                <span>Poli Penyakit Dalam</span>
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                </svg>
+                <span>Dashboard</span>
+            </nav>
+
+            <!-- Dashboard Content -->
+            <main class="flex-1 overflow-y-auto p-6">
+                <h1 class="text-3xl font-bold text-gray-900 mb-2">Dashboard Dokter</h1>
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-bold text-blue-600">Selamat Pagi, Dokter Andre!</h2>
+                    <div class="text-right">
+                        <div class="text-lg font-semibold text-gray-800" id="currentDate"></div>
+                        <div class="text-sm text-gray-600" id="currentTime"></div>
+                    </div>
+                </div>
+  
+                <!-- Summary -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                    <!-- Total Pasien Hari Ini -->
+                    <div class="bg-white border border-gray-200 rounded-lg p-6">
+                        <div class="flex items-center">
+                            <div class="p-3 bg-blue-100 rounded-lg">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-7 text-blue-600">
+                            <path d="M12 11.993a.75.75 0 0 0-.75.75v.006c0 .414.336.75.75.75h.006a.75.75 0 0 0 .75-.75v-.006a.75.75 0 0 0-.75-.75H12ZM12 16.494a.75.75 0 0 0-.75.75v.005c0 .414.335.75.75.75h.005a.75.75 0 0 0 .75-.75v-.005a.75.75 0 0 0-.75-.75H12ZM8.999 17.244a.75.75 0 0 1 .75-.75h.006a.75.75 0 0 1 .75.75v.006a.75.75 0 0 1-.75.75h-.006a.75.75 0 0 1-.75-.75v-.006ZM7.499 16.494a.75.75 0 0 0-.75.75v.005c0 .414.336.75.75.75h.005a.75.75 0 0 0 .75-.75v-.005a.75.75 0 0 0-.75-.75H7.5ZM13.499 14.997a.75.75 0 0 1 .75-.75h.006a.75.75 0 0 1 .75.75v.005a.75.75 0 0 1-.75.75h-.006a.75.75 0 0 1-.75-.75v-.005ZM14.25 16.494a.75.75 0 0 0-.75.75v.006c0 .414.335.75.75.75h.005a.75.75 0 0 0 .75-.75v-.006a.75.75 0 0 0-.75-.75h-.005ZM15.75 14.995a.75.75 0 0 1 .75-.75h.005a.75.75 0 0 1 .75.75v.006a.75.75 0 0 1-.75.75H16.5a.75.75 0 0 1-.75-.75v-.006ZM13.498 12.743a.75.75 0 0 1 .75-.75h2.25a.75.75 0 1 1 0 1.5h-2.25a.75.75 0 0 1-.75-.75ZM6.748 14.993a.75.75 0 0 1 .75-.75h4.5a.75.75 0 0 1 0 1.5h-4.5a.75.75 0 0 1-.75-.75Z" />
+                            <path fill-rule="evenodd" d="M18 2.993a.75.75 0 0 0-1.5 0v1.5h-9V2.994a.75.75 0 1 0-1.5 0v1.497h-.752a3 3 0 0 0-3 3v11.252a3 3 0 0 0 3 3h13.5a3 3 0 0 0 3-3V7.492a3 3 0 0 0-3-3H18V2.993ZM3.748 18.743v-7.5a1.5 1.5 0 0 1 1.5-1.5h13.5a1.5 1.5 0 0 1 1.5 1.5v7.5a1.5 1.5 0 0 1-1.5 1.5h-13.5a1.5 1.5 0 0 1-1.5-1.5Z" clip-rule="evenodd" />
+                            </svg>
+                            </div>
+                            <div class="ml-4">
+                                <p class="text-sm font-semibold text-gray-600 mb-1">Total Pasien Hari Ini</p>
+                                <p class="text-3xl font-bold text-gray-900">45</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pasien Menunggu Penanganan -->
+                    <div class="bg-white border border-gray-200 rounded-lg p-6">
+                        <div class="flex items-center">
+                            <div class="p-3 bg-blue-100 rounded-lg">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-7 text-blue-600">
+                            <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25ZM12.75 6a.75.75 0 0 0-1.5 0v6c0 .414.336.75.75.75h4.5a.75.75 0 0 0 0-1.5h-3.75V6Z" clip-rule="evenodd" />
+                            </svg>
+                            </div>
+                            <div class="ml-4">
+                                <p class="text-sm font-semibold  text-gray-600 mb-1">Pasien Menunggu Penanganan</p>
+                                <p class="text-3xl font-bold text-gray-900">20</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pasien Sudah Ditangani -->
+                    <div class="bg-white border border-gray-200 rounded-lg p-6">
+                        <div class="flex items-center">
+                            <div class="p-3 bg-blue-100 rounded-lg">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-7 text-blue-600">
+                            <path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm13.36-1.814a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z" clip-rule="evenodd" />
+                            </svg>
+                            </div>
+                            <div class="ml-4">
+                                <p class="text-sm font-semibold  text-gray-600 mb-1">Pasien Sudah Ditangani</p>
+                                <p class="text-3xl font-bold text-gray-900">25</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- Data Table Section -->
+                <div class="bg-white border border-gray-200 rounded-lg overflow-hidden">
+                    <!-- Table Header -->
+                    <div class="px-6 py-4 border-b border-gray-200">
+                        <h2 class="text-lg font-semibold text-gray-900 mb-4">Daftar Kunjungan</h2>
+                        <div class="relative max-w-xs">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <svg class="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                                </svg>
+                            </div>
+                            <input type="text" id="searchInput" class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-sm" placeholder="Cari No. Reg, NRM atau Nama Pasien">
+                        </div>
+                    </div>
+
+                    <!-- Table -->
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200 text-sm">
+                            <thead class="bg-blue-50">
+                                <tr>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-800 uppercase">NO</th>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-800 uppercase">NO.ANTREAN</th>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-800 uppercase">NO.REGISTRASI</th>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-800 uppercase">TANGGAL</th>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-800 uppercase">NRM</th>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-800 uppercase">NAMA PASIEN</th>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-800 uppercase">J.K.</th>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-800 uppercase">AKSI</th>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-800 uppercase">STATUS</th>
+                                </tr>
+                            </thead>
+                            <tbody id="patientTable" class="bg-white divide-y divide-gray-200">
+                                <!-- Data akan diisi oleh JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Pagination -->
+                    <div class="bg-white px-4 py-3 flex items-center justify-center border-t border-gray-200 sm:px-6">
+                        <div class="flex items-center space-x-2">
+                            <button class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                                <span class="sr-only">Previous</span>
+                                <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                </svg>
+                            </button>
+                            <button class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-blue-50 text-sm font-medium text-blue-600 hover:bg-blue-100">1</button>
+                            <button class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">2</button>
+                            <button class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">3</button>
+                            <span class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700">...</span>
+                            <button class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">10</button>
+                            <button class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                                <span class="sr-only">Next</span>
+                                <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        // Data pasien JSON
+        const patientsData = [
+            {
+                noAntrian: "003",
+                noRegistrasi: "PD-28072025-003",
+                tanggal: "28/07/2025",
+                nrm: "000001", 
+                namaPasien: "Muhammad Fadhlan",
+                jenisKelamin: "L",
+                status: "waiting"
+            },
+            {
+                noAntrian: "004",
+                noRegistrasi: "PD-28072025-004", 
+                tanggal: "28/07/2025",
+                nrm: "000002",
+                namaPasien: "Siti Nurhaliza",
+                jenisKelamin: "P",
+                status: "waiting"
+            },
+            {
+                noAntrian: "005",
+                noRegistrasi: "PD-28072025-005",
+                tanggal: "28/07/2025", 
+                nrm: "000003",
+                namaPasien: "Ahmad Ramadhan",
+                jenisKelamin: "L",
+                status: "completed"
+            },
+            {
+                noAntrian: "006",
+                noRegistrasi: "PD-28072025-006",
+                tanggal: "28/07/2025",
+                nrm: "000004", 
+                namaPasien: "Dewi Sartika",
+                jenisKelamin: "P",
+                status: "waiting"
+            },
+            {
+                noAntrian: "001",
+                noRegistrasi: "PD-28072025-001",
+                tanggal: "28/07/2025",
+                nrm: "000005",
+                namaPasien: "Budi Santoso", 
+                jenisKelamin: "L",
+                status: "completed"
+            },
+            {
+                noAntrian: "002",
+                noRegistrasi: "PD-28072025-002",
+                tanggal: "28/07/2025",
+                nrm: "000006",
+                namaPasien: "Rina Marliana",
+                jenisKelamin: "P", 
+                status: "completed"
+            }
+        ];
+
+        function updateDateTime() {
+            const now = new Date();
+            
+            const days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+            const months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 
+                           'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+            
+            const dayName = days[now.getDay()];
+            const day = now.getDate();
+            const month = months[now.getMonth()];
+            const year = now.getFullYear();
+            
+            const dateString = `${dayName}, ${day} ${month} ${year}`;
+            
+            const hours = now.getHours().toString().padStart(2, '0');
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            const seconds = now.getSeconds().toString().padStart(2, '0');
+            
+            const timeString = `${hours}:${minutes}:${seconds} WIB`;
+        
+            document.getElementById('currentDate').textContent = dateString;
+            document.getElementById('currentTime').textContent = timeString;
+        }
+
+        function renderPatientTable() {
+            const tbody = document.getElementById('patientTable');
+            tbody.innerHTML = '';
+
+            // Sort patients
+            const sortedPatients = [...patientsData].sort((a, b) => {
+                if (a.status === 'waiting' && b.status === 'completed') return -1;
+                if (a.status === 'completed' && b.status === 'waiting') return 1;
+                return 0;
+            });
+
+            sortedPatients.forEach((patient, index) => {
+                const originalIndex = patientsData.findIndex(p => p.nrm === patient.nrm);
+                const statusClass = patient.status === 'completed' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800';
+                const statusText = patient.status === 'completed' ? 'Sudah Ditangani' : 'Menunggu Penanganan';
+                
+                const row = `
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-4 py-4 text-sm text-gray-900">${index + 1}</td>
+                        <td class="px-4 py-4 text-sm text-gray-900">${patient.noAntrian}</td>
+                        <td class="px-4 py-4 text-sm text-gray-900">${patient.noRegistrasi}</td>
+                        <td class="px-4 py-4 text-sm text-gray-900">${patient.tanggal}</td>
+                        <td class="px-4 py-4 text-sm text-gray-900">${patient.nrm}</td>
+                        <td class="px-4 py-4 text-sm text-gray-900">${patient.namaPasien}</td>
+                        <td class="px-4 py-4 text-sm text-gray-900">${patient.jenisKelamin}</td>
+                        <td class="px-4 py-4 text-sm text-gray-900">
+                            <button onclick="viewPatientHistory('${patient.nrm}', '${patient.namaPasien}')" 
+                                    class="text-blue-600 hover:text-blue-800" 
+                                    title="Lihat Riwayat Pasien">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-5">
+                                    <path fill-rule="evenodd" d="M4.5 3.75a3 3 0 0 0-3 3v10.5a3 3 0 0 0 3 3h15a3 3 0 0 0 3-3V6.75a3 3 0 0 0-3-3h-15Zm4.125 3a2.25 2.25 0 1 0 0 4.5 2.25 2.25 0 0 0 0-4.5Zm-3.873 8.703a4.126 4.126 0 0 1 7.746 0 .75.75 0 0 1-.351.92 7.47 7.47 0 0 1-3.522.877 7.47 7.47 0 0 1-3.522-.877.75.75 0 0 1-.351-.92ZM15 8.25a.75.75 0 0 0 0 1.5h3.75a.75.75 0 0 0 0-1.5H15ZM14.25 12a.75.75 0 0 1 .75-.75h3.75a.75.75 0 0 1 0 1.5H15a.75.75 0 0 1-.75-.75Zm.75 2.25a.75.75 0 0 0 0 1.5h3.75a.75.75 0 0 0 0-1.5H15Z" clip-rule="evenodd" />
+                                    </svg>
+                            </button>
+                        </td>
+                        <td class="px-4 py-4">
+                            <button onclick="toggleStatus(${originalIndex})" class="cursor-pointer">
+                                <span class="px-2 py-1 text-xs font-medium rounded-full ${statusClass} hover:opacity-80 transition-opacity">
+                                    ${statusText}
+                                </span>
+                            </button>
+                        </td>
+                    </tr>
+                `;
+                tbody.innerHTML += row;
+            });
+        }
+
+        function toggleStatus(index) {
+            if (patientsData[index].status === 'waiting') {
+                patientsData[index].status = 'completed';
+            } else {
+                patientsData[index].status = 'waiting';
+            }
+            renderPatientTable();
+        }
+
+        function viewPatientHistory(nrm, namaPasien) {
+            window.location.href = `tabel-riwayat.html?nrm=${nrm}&nama=${encodeURIComponent(namaPasien)}`;
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            renderPatientTable();
+            
+            updateDateTime();
+            setInterval(updateDateTime, 1000);
+            
+            const searchInput = document.getElementById('searchInput');
+            if (searchInput) {
+                searchInput.addEventListener('input', function(e) {
+                    const searchTerm = e.target.value.toLowerCase();
+                    const rows = document.querySelectorAll('#patientTable tr');
+                    
+                    rows.forEach(row => {
+                        const text = row.textContent.toLowerCase();
+                        if (text.includes(searchTerm)) {
+                            row.style.display = '';
+                        } else {
+                            row.style.display = 'none';
+                        }
+                    });
+                });
+            }
+        });
+    </script>
+</body> 
+</html>
