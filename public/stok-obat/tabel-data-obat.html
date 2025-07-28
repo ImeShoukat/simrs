@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIMRS - Data Stok Barang Pengadaan</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              "blue-primary": "#4F46E5",
+              "blue-light": "#EEF2FF",
+              "gray-light": "#F8FAFC",
+            },
+          },
+        },
+      };
+    </script>
+</head>
+<body class="bg-gray-50 font-inter">
+    <!-- Kontainer Sidebar -->
+    <div id="sidebar-container"></div>
+    <script>
+      fetch("../../src/components/sidebar.html")
+        .then((res) => res.text())
+        .then((html) => {
+          document.getElementById("sidebar-container").innerHTML = html;
+        });
+    </script>
+
+    <!-- Konten Utama -->
+    <div class="lg:ml-64 min-h-screen">
+        <!-- Header -->
+        <header class="bg-white shadow-sm border-b sticky top-0 z-40">
+            <div class="flex items-center justify-between px-4 lg:px-6 py-4">
+                <nav class="flex items-center space-x-2 text-sm text-gray-600">
+                    <a href="../dashboard.html" class="hover:text-gray-900">Home</a>
+                    <span>></span>
+                    <a href="#" class="hover:text-gray-900">Farmasi</a>
+                    <span>></span>
+                    <span class="text-gray-900 font-medium">Stok Barang Pengadaan</span>
+                </nav>
+                <div class="flex items-center space-x-2">
+                    <span class="text-gray-700 hidden sm:block">Admin</span>
+                    <button class="p-2 rounded-lg hover:bg-gray-100">
+                        <i class="fas fa-user-circle text-gray-500"></i>
+                    </button>
+                </div>
+            </div>
+        </header>
+        <!-- Konten Utama -->
+        <div class="p-4 lg:p-6">
+            <div class="max-w-7xl mx-auto">
+                <!-- Page Header -->
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+                    <div>
+                        <h1 class="text-2xl font-bold text-gray-900">DATA STOK BARANG PENGADAAN</h1>
+                    </div>
+                    <button onclick="goToTambahObat()" class="bg-blue-600 hover:bg-blue-700 text-sm text-white px-4 py-2 rounded-lg flex items-center space-x-2 transition-colors shadow-sm">
+                        <span>+ Tambah Obat</span>
+                    </button>
+                </div>
+                    </button>
+                </div>
+                
+            <div class="bg-white rounded-lg shadow-sm border p-4 mb-6">
+                <!-- Filters -->
+                <div class="p-2 mb-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Tanggal Dari</label>
+                            <input type="date" id="dateFrom" value="2025-07-16" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Tanggal Sampai</label>
+                            <input type="date" id="dateTo" value="2025-07-16" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Pencarian</label>
+                            <input type="text" id="searchInput" placeholder="Cari nama obat, ID barang..." class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                        </div>
+                        <div class="flex items-end">
+                            <button onclick="resetFilter()" class="bg-red-100 hover:bg-red-200 text-red-600 px-4 py-2 rounded-lg text-sm transition-colors">
+                                Reset <i class="fas fa-redo ml-1"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Data Table -->
+                <div class="bg-white rounded-lg shadow-sm border overflow-hidden">
+                    <div class="overflow-x-auto">
+                        <table class="w-full min-w-[1200px]">
+                            <thead class="bg-blue-50">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3 text-start text-xs font-bold text-gray-700 uppercase">NO</th>
+                                    <th scope="col" class="px-6 py-3 text-start text-xs font-bold text-gray-700 uppercase">BARANG ID</th>
+                                    <th scope="col" class="px-6 py-3 text-start text-xs font-bold text-gray-700 uppercase">BARANG</th>
+                                    <th scope="col" class="px-6 py-3 text-start text-xs font-bold text-gray-700 uppercase">ASAL BARANG</th>
+                                    <th scope="col" class="px-6 py-3 text-start text-xs font-bold text-gray-700 uppercase">JENIS BARANG</th>
+                                    <th scope="col" class="px-6 py-3 text-start text-xs font-bold text-gray-700 uppercase">SUMBER DANA</th>
+                                    <th scope="col" class="px-6 py-3 text-start text-xs font-bold text-gray-700 uppercase">SATUAN</th>
+                                    <th scope="col" class="px-6 py-3 text-center text-xs font-bold text-gray-700 uppercase">STOK AWAL</th>
+                                    <th scope="col" class="px-6 py-3 text-center text-xs font-bold text-gray-700 uppercase">STOK MASUK</th>
+                                    <th scope="col" class="px-6 py-3 text-center text-xs font-bold text-gray-700 uppercase">STOK KELUAR</th>
+                                    <th scope="col" class="px-6 py-3 text-center text-xs font-bold text-gray-700 uppercase">STOK AKHIR</th>
+                                    <th scope="col" class="px-6 py-3 text-start text-xs font-bold text-gray-700 uppercase">HARGA BELI</th>
+                                    <th scope="col" class="px-6 py-3 text-start text-xs font-bold text-gray-700 uppercase">NILAI BELI</th>
+                                    <th scope="col" class="px-6 py-3 text-start text-xs font-bold text-gray-700 uppercase">HARGA JUAL</th>
+                                    <th scope="col" class="px-6 py-3 text-start text-xs font-bold text-gray-700 uppercase">NILAI JUAL</th>
+                                    <th scope="col" class="px-6 py-3 text-center text-xs font-bold text-gray-700 uppercase">AKSI</th>
+                                </tr>
+                            </thead>
+                            <tbody id="stockTableBody" class="bg-white divide-y divide-gray-200 text-sm text-gray-700">
+                                <!-- Data akan diisi melalui JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Pagination -->
+                    <div class="bg-gray-50 px-6 py-3 flex items-center justify-between border-t border-gray-200">
+                        <div class="text-sm text-gray-700">
+                            <span id="paginationInfo">Menampilkan 1 - 10 dari 100 data</span>
+                        </div>
+                        <div class="flex items-center space-x-1">
+                            <button class="px-3 py-2 text-sm text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-lg">
+                                <i class="fas fa-chevron-left"></i>
+                            </button>
+                            <button class="px-3 py-2 text-sm bg-blue-600 text-white rounded-lg">1</button>
+                            <button class="px-3 py-2 text-sm text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-lg">2</button>
+                            <button class="px-3 py-2 text-sm text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-lg">3</button>
+                            <span class="px-2 text-gray-500">...</span>
+                            <button class="px-3 py-2 text-sm text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-lg">10</button>
+                            <button class="px-3 py-2 text-sm text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-lg">
+                                <i class="fas fa-chevron-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Tambah Stok -->
+    <div id="addStockModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden p-4">
+        <div class="bg-white rounded-lg w-full max-w-md transform transition-all duration-300 scale-95 opacity-0" id="addStockModalContent">
+            <div class="bg-blue-600 text-white px-6 py-4 rounded-t-lg">
+                <h3 class="text-lg font-semibold text-center uppercase">TAMBAH STOK OBAT</h3>
+            </div>
+
+            <div class="px-6 py-6">
+                <form id="addStockForm">
+                    <!-- Form Input -->
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Nama Obat</label>
+                            <input type="text" id="namaObatFixed" readonly
+                                class="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-50 text-gray-600 cursor-not-allowed" 
+                                placeholder="Nama obat akan terisi otomatis">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">No. Batch <span class="text-red-500">*</span></label>
+                            <input type="text" id="noBatch" 
+                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" 
+                                placeholder="Masukkan nomor batch">
+                            <div id="noBatchError" class="text-red-500 text-sm mt-1 hidden">Nomor batch wajib diisi</div>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Tanggal Expired <span class="text-red-500">*</span></label>
+                            <input type="date" id="tanggalExpired" 
+                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                            <div id="tanggalExpiredError" class="text-red-500 text-sm mt-1 hidden">Tanggal expired wajib diisi</div>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Stok <span class="text-red-500">*</span></label>
+                            <input type="number" id="jumlahStokMasuk" min="1" 
+                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" 
+                                placeholder="Masukkan jumlah stok">
+                            <div id="jumlahStokError" class="text-red-500 text-sm mt-1 hidden">Jumlah stok wajib diisi</div>
+                        </div>
+                    </div>
+
+                    <!-- Buttons -->
+                    <div class="flex space-x-3 mt-6">
+                        <button type="button" onclick="hideAddStockModal()" 
+                            class="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
+                            Batal
+                        </button>
+                        <button type="submit" 
+                            class="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                            Tambah Stok
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Sukses -->
+    <div id="successModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden p-4">
+        <div class="bg-white rounded-lg p-8 w-full max-w-sm text-center transform transition-all duration-300 scale-95 opacity-0" id="successModalContent">
+            <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg class="w-8 h-8 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                </svg>
+            </div>
+            <h3 class="text-xl font-semibold text-gray-900 mb-2">Sukses</h3>
+            <p class="text-gray-600 mb-6">Stok obat berhasil ditambahkan</p>
+            <button onclick="hideSuccessModal()" class="w-full px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                Oke
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Data JSON untuk stok obat
+        const stockData = [
+            {
+                id: 1,
+                barangId: "BRG001",
+                namaBarang: "Paracetamol 500mg",
+                asalBarang: "Pengadaan",
+                jenisBarang: "Obat",
+                sumberDana: "BLUD",
+                satuan: "Strip",
+                stokAwal: 100,
+                stokMasuk: 50,
+                stokKeluar: 25,
+                stokAkhir: 125,
+                hargaBeli: 15000,
+                nilaiBeli: 1875000,
+                hargaJual: 18000,
+                nilaiJual: 2250000,
+                kategori: "Tablet",
+                tanggal: "2025-07-16"
+            },
+            {
+                id: 2,
+                barangId: "BRG002",
+                namaBarang: "Amoxicillin 500mg",
+                asalBarang: "Pengadaan",
+                jenisBarang: "Obat",
+                sumberDana: "APBN",
+                satuan: "Strip",
+                stokAwal: 80,
+                stokMasuk: 40,
+                stokKeluar: 15,
+                stokAkhir: 105,
+                hargaBeli: 25000,
+                nilaiBeli: 2625000,
+                hargaJual: 30000,
+                nilaiJual: 3150000,
+                kategori: "Kapsul",
+                tanggal: "2025-07-16"
+            },
+            {
+                id: 3,
+                barangId: "BRG003",
+                namaBarang: "OBH Combi Sirup 60ml",
+                asalBarang: "Pengadaan",
+                jenisBarang: "Obat",
+                sumberDana: "BLUD",
+                satuan: "Botol",
+                stokAwal: 60,
+                stokMasuk: 30,
+                stokKeluar: 10,
+                stokAkhir: 80,
+                hargaBeli: 35000,
+                nilaiBeli: 2800000,
+                hargaJual: 42000,
+                nilaiJual: 3360000,
+                kategori: "Sirup",
+                tanggal: "2025-07-16"
+            },
+            {
+                id: 4,
+                barangId: "BRG004",
+                namaBarang: "Vitamin C 1000mg",
+                asalBarang: "Pengadaan",
+                jenisBarang: "Obat",
+                sumberDana: "APBN",
+                satuan: "Strip",
+                stokAwal: 120,
+                stokMasuk: 60,
+                stokKeluar: 30,
+                stokAkhir: 150,
+                hargaBeli: 45000,
+                nilaiBeli: 6750000,
+                hargaJual: 54000,
+                nilaiJual: 8100000,
+                kategori: "Tablet",
+                tanggal: "2025-07-17"
+            },
+            {
+                id: 5,
+                barangId: "BRG005",
+                namaBarang: "Insulin Injection",
+                asalBarang: "Pengadaan",
+                jenisBarang: "Obat",
+                sumberDana: "BLUD",
+                satuan: "Vial",
+                stokAwal: 25,
+                stokMasuk: 15,
+                stokKeluar: 8,
+                stokAkhir: 32,
+                hargaBeli: 150000,
+                nilaiBeli: 4800000,
+                hargaJual: 180000,
+                nilaiJual: 5760000,
+                kategori: "Injeksi",
+                tanggal: "2025-07-17"
+            }
+        ];
+
+        let filteredData = [...stockData];
+
+        // Filter elements
+        const dateFromInput = document.getElementById('dateFrom');
+        const dateToInput = document.getElementById('dateTo');
+        const searchInput = document.getElementById('searchInput');
+
+        // Format currency
+        function formatCurrency(amount) {
+            return new Intl.NumberFormat('id-ID', {
+                style: 'currency',
+                currency: 'IDR',
+                minimumFractionDigits: 0
+            }).format(amount);
+        }
+
+        // Populate table
+        function populateTable() {
+            const tbody = document.getElementById('stockTableBody');
+            tbody.innerHTML = '';
+
+            if (filteredData.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="16" class="px-6 py-8 text-center text-gray-500">
+                            <i class="fas fa-box-open text-4xl mb-2 text-gray-300"></i>
+                            <p>Tidak ada data stok yang ditemukan</p>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            filteredData.forEach((item, index) => {
+                const row = document.createElement('tr');
+                row.className = 'hover:bg-gray-50 transition-colors';
+                row.innerHTML = `
+                    <td class="px-6 py-4 text-center">${index + 1}</td>
+                    <td class="px-6 py-4">${item.barangId}</td>
+                    <td class="px-6 py-4">${item.namaBarang}</td>
+                    <td class="px-6 py-4">${item.asalBarang}</td>
+                    <td class="px-6 py-4">${item.jenisBarang}</td>
+                    <td class="px-6 py-4">${item.sumberDana}</td>
+                    <td class="px-6 py-4">${item.satuan}</td>
+                    <td class="px-6 py-4 text-center font-medium text-blue-600">${item.stokAwal}</td>
+                    <td class="px-6 py-4 text-center font-medium text-green-600">${item.stokMasuk}</td>
+                    <td class="px-6 py-4 text-center font-medium text-red-600">${item.stokKeluar}</td>
+                    <td class="px-6 py-4 text-center font-medium text-blue-600">${item.stokAkhir}</td>
+                    <td class="px-6 py-4">${formatCurrency(item.hargaBeli)}</td>
+                    <td class="px-6 py-4 font-medium">${formatCurrency(item.nilaiBeli)}</td>
+                    <td class="px-6 py-4">${formatCurrency(item.hargaJual)}</td>
+                    <td class="px-6 py-4 font-medium">${formatCurrency(item.nilaiJual)}</td>
+                    <td class="px-6 py-4 text-center">
+                        <div class="relative dropdown">
+                            <button class="text-gray-400 hover:text-gray-600 transition-colors dropdown-btn" onclick="toggleDropdown(${item.id})">
+                                <i class="fas fa-ellipsis-v"></i>
+                            </button>
+                            <div id="dropdown-${item.id}" class="dropdown-content absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 z-10 hidden">
+                                <a onclick="showAddStockModal(${item.id})" class="block px-4 py-2 text-sm text-blue-600 hover:bg-blue-50 cursor-pointer">
+                                    <i class="fas fa-plus mr-2"></i>Tambah Stok
+                                </a>
+                                <a onclick="goToRiwayatObat(${item.id})" class="block px-4 py-2 text-sm text-blue-600 hover:bg-blue-50 cursor-pointer">
+                                    <i class="fas fa-history mr-2"></i>Riwayat Stok
+                                </a>
+                            </div>
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+
+            updatePaginationInfo();
+        }
+
+        // Get category badge style
+        function getCategoryBadge(category) {
+            const badges = {
+                'Tablet': 'bg-blue-100 text-blue-800',
+                'Kapsul': 'bg-green-100 text-green-800',
+                'Sirup': 'bg-purple-100 text-purple-800',
+                'Injeksi': 'bg-red-100 text-red-800'
+            };
+            return badges[category] || 'bg-gray-100 text-gray-800';
+        }
+
+        // Update pagination info
+        function updatePaginationInfo() {
+            const totalData = stockData.length;
+            const filteredCount = filteredData.length;
+            const paginationInfo = document.getElementById('paginationInfo');
+            
+            if (paginationInfo) {
+                paginationInfo.textContent = `Menampilkan ${Math.min(filteredCount, 10)} dari ${filteredCount} data`;
+            }
+        }
+
+        // Apply filters
+        function applyFilter() {
+            const dateFrom = dateFromInput.value;
+            const dateTo = dateToInput.value;
+            const search = searchInput.value.toLowerCase().trim();
+
+            filteredData = stockData.filter(item => {
+                let matches = true;
+
+                // Filter by date range
+                if (dateFrom || dateTo) {
+                    const itemDate = new Date(item.tanggal);
+                    if (dateFrom && itemDate < new Date(dateFrom)) matches = false;
+                    if (dateTo && itemDate > new Date(dateTo)) matches = false;
+                }
+
+                // Filter by search text
+                if (search) {
+                    const searchFields = [
+                        item.barangId.toLowerCase(),
+                        item.namaBarang.toLowerCase(),
+                        item.asalBarang.toLowerCase()
+                    ];
+                    matches = matches && searchFields.some(field => field.includes(search));
+                }
+
+                return matches;
+            });
+
+            populateTable();
+        }
+
+        // Reset filter
+        function resetFilter() {
+            dateFromInput.value = '2025-07-16';
+            dateToInput.value = '2025-07-16';
+            searchInput.value = '';
+            
+            filteredData = [...stockData];
+            populateTable();
+        }
+
+        // Toggle action menu
+        function toggleActionMenu(itemId, event) {
+            event.stopPropagation();
+            // Implementation for action menu
+            console.log('Action menu for item:', itemId);
+        }
+
+        // Fungsi dropdown seperti dashboard
+        function toggleDropdown(id) {
+            const dropdown = document.getElementById(`dropdown-${id}`);
+            // Tutup semua dropdown lain
+            document.querySelectorAll(".dropdown-content").forEach((d) => {
+                if (d.id !== `dropdown-${id}`) {
+                    d.classList.remove("show");
+                    d.classList.add("hidden");
+                }
+            });
+            // Toggle dropdown yang diklik
+            dropdown.classList.toggle("show");
+            dropdown.classList.toggle("hidden");
+        }
+
+        // Tutup dropdown saat klik di luar
+        window.addEventListener("click", function (event) {
+            if (!event.target.matches(".dropdown-btn") && !event.target.matches(".fas")) {
+                document.querySelectorAll(".dropdown-content").forEach((dropdown) => {
+                    dropdown.classList.remove("show");
+                    dropdown.classList.add("hidden");
+                });
+            }
+        });
+
+        // Fungsi aksi dropdown
+        let currentStockItem = null;
+
+        function showAddStockModal(itemId) {
+            const item = stockData.find(stock => stock.id === itemId);
+            if (!item) return;
+            
+            currentStockItem = item;
+            
+            // Isi nama obat yang tidak bisa diubah
+            document.getElementById('namaObatFixed').value = item.namaBarang;
+            
+            // Reset form
+            document.getElementById('addStockForm').reset();
+            document.getElementById('namaObatFixed').value = item.namaBarang; // Set ulang setelah reset
+            clearStockFormErrors();
+            
+            // Show modal
+            const modal = document.getElementById('addStockModal');
+            const content = document.getElementById('addStockModalContent');
+            
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                content.classList.remove('scale-95', 'opacity-0');
+                content.classList.add('scale-100', 'opacity-100');
+            }, 10);
+        }
+
+        function hideAddStockModal() {
+            const modal = document.getElementById('addStockModal');
+            const content = document.getElementById('addStockModalContent');
+            
+            content.classList.remove('scale-100', 'opacity-100');
+            content.classList.add('scale-95', 'opacity-0');
+            
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                currentStockItem = null;
+            }, 300);
+        }
+
+        function goToRiwayatObat(itemId) {
+            window.location.href = 'riwayat-obat.html';
+        }
+
+        // Form submission untuk tambah stok
+        document.getElementById('addStockForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const noBatch = document.getElementById('noBatch').value.trim();
+            const tanggalExpired = document.getElementById('tanggalExpired').value;
+            const jumlahStok = document.getElementById('jumlahStokMasuk').value;
+            
+            // Validasi
+            clearStockFormErrors();
+            let hasError = false;
+            
+            if (!noBatch) {
+                showStockFieldError('noBatch', 'noBatchError');
+                hasError = true;
+            }
+            
+            if (!tanggalExpired) {
+                showStockFieldError('tanggalExpired', 'tanggalExpiredError');
+                hasError = true;
+            }
+            
+            if (!jumlahStok || jumlahStok <= 0) {
+                showStockFieldError('jumlahStokMasuk', 'jumlahStokError');
+                hasError = true;
+            }
+            
+            if (hasError) return;
+            
+            // Update stok
+            if (currentStockItem) {
+                const tambahan = parseInt(jumlahStok);
+                currentStockItem.stokMasuk += tambahan;
+                currentStockItem.stokAkhir += tambahan;
+                
+                // Update nilai
+                currentStockItem.nilaiBeli = currentStockItem.stokAkhir * currentStockItem.hargaBeli;
+                currentStockItem.nilaiJual = currentStockItem.stokAkhir * currentStockItem.hargaJual;
+            }
+            
+            hideAddStockModal();
+            showSuccessModal();
+        });
+
+        function showStockFieldError(fieldId, errorId) {
+            const field = document.getElementById(fieldId);
+            const error = document.getElementById(errorId);
+            
+            field.classList.add('border-red-500', 'ring-red-200');
+            error.classList.remove('hidden');
+            
+            field.addEventListener('input', function() {
+                clearStockFieldError(fieldId, errorId);
+            }, { once: true });
+        }
+
+        function clearStockFieldError(fieldId, errorId) {
+            const field = document.getElementById(fieldId);
+            const error = document.getElementById(errorId);
+            
+            field.classList.remove('border-red-500', 'ring-red-200');
+            error.classList.add('hidden');
+        }
+
+        function clearStockFormErrors() {
+            clearStockFieldError('noBatch', 'noBatchError');
+            clearStockFieldError('tanggalExpired', 'tanggalExpiredError');
+            clearStockFieldError('jumlahStokMasuk', 'jumlahStokError');
+        }
+
+        function showSuccessModal() {
+            const modal = document.getElementById('successModal');
+            const content = document.getElementById('successModalContent');
+            
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                content.classList.remove('scale-95', 'opacity-0');
+                content.classList.add('scale-100', 'opacity-100');
+            }, 10);
+            
+            // Refresh table data
+            populateTable();
+        }
+
+        function hideSuccessModal() {
+            const modal = document.getElementById('successModal');
+            const content = document.getElementById('successModalContent');
+            
+            content.classList.remove('scale-100', 'opacity-100');
+            content.classList.add('scale-95', 'opacity-0');
+            
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300);
+        }
+
+        // Fungsi navigasi
+        function goToTambahObat() {
+            window.location.href = 'tambah-obat.html';
+        }
+
+        // Filter event listeners
+        [dateFromInput, dateToInput, searchInput].forEach(element => {
+            element.addEventListener('change', applyFilter);
+            element.addEventListener('input', applyFilter);
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            populateTable();
+        });
+    </script>
+
+    <style>
+        .font-inter {
+            font-family: "Inter", sans-serif;
+        }
+        .dropdown-content.show {
+            display: block !important;
+            z-index: 1000;
+        }
+        .dropdown-content {
+            display: none;
+            z-index: 1000;
+        }
+        .dropdown-content.hidden {
+            display: none !important;
+        }
+        .dropdown-btn,
+        .dropdown-content a {
+            cursor: pointer;
+        }
+        .dropdown {
+            position: relative;
+        }
+        
+        /* Modal animations */
+        .scale-95 {
+            transform: scale(0.95);
+        }
+        .scale-100 {
+            transform: scale(1);
+        }
+        .opacity-0 {
+            opacity: 0;
+        }
+        .opacity-100 {
+            opacity: 1;
+        }
+    </style>
+</body>
+</html>
