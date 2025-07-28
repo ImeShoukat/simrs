@@ -309,49 +309,35 @@
     </div>
 
     <script>
-        // Tab functionality
         document.getElementById('tab-keluar').addEventListener('click', function() {
-            // Update tab appearance
             document.getElementById('tab-keluar').className = 'border-b-2 border-blue-500 py-4 px-1 text-sm font-medium text-blue-600';
             document.getElementById('tab-batch').className = 'border-b-2 border-transparent py-4 px-1 text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300';
             
-            // Show/hide tables
             document.getElementById('table-keluar').classList.remove('hidden');
             document.getElementById('table-batch').classList.add('hidden');
             
-            // Update pagination info
             document.getElementById('pagination-info').textContent = 'Menampilkan 1 - 5 dari 5 data';
         });
 
         document.getElementById('tab-batch').addEventListener('click', function() {
-            // Update tab appearance
             document.getElementById('tab-batch').className = 'border-b-2 border-blue-500 py-4 px-1 text-sm font-medium text-blue-600';
             document.getElementById('tab-keluar').className = 'border-b-2 border-transparent py-4 px-1 text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300';
             
-            // Show/hide tables
             document.getElementById('table-batch').classList.remove('hidden');
             document.getElementById('table-keluar').classList.add('hidden');
             
-            // Update pagination info
             document.getElementById('pagination-info').textContent = 'Menampilkan 1 - 4 dari 4 data';
         });
 
-        // Reset button functionality
         document.querySelector('button[class*="text-red-600"]').addEventListener('click', function() {
-            // Reset date inputs to today
             const today = new Date().toISOString().split('T')[0];
             document.querySelectorAll('input[type="date"]').forEach(input => {
                 input.value = today;
             });
             
-            // Reset search input
             document.querySelector('input[placeholder*="Cari"]').value = '';
-            
-            // Show success message (optional)
-            console.log('Filters reset successfully');
         });
 
-        // Search functionality
         document.querySelector('input[placeholder*="Cari"]').addEventListener('input', function(e) {
             const searchTerm = e.target.value.toLowerCase();
             const activeTable = document.getElementById('table-keluar').classList.contains('hidden') ? 

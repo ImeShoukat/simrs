@@ -212,23 +212,18 @@
   </div>
 
   <script>
-    // Form elements
     const tambahObatForm = document.getElementById('tambahObatForm');
     const successModal = document.getElementById('successModal');
     const okBtn = document.getElementById('okBtn');
     const kembaliBtn = document.getElementById('kembaliBtn');
-
-    // Form submission
     tambahObatForm.addEventListener('submit', (e) => {
         e.preventDefault();
         
-        // Helper function to clean and get numeric value
         const getNumericValue = (elementId) => {
             const value = document.getElementById(elementId).value;
             return value ? parseInt(value.replace(/[^\d]/g, '')) : 0;
         };
         
-        // Get form values
         const dataObat = {
             namaObat: document.getElementById('namaObat').value,
             asalBarang: document.getElementById('asalBarang').value,
@@ -243,35 +238,29 @@
             catatanKhusus: document.getElementById('catatanKhusus').value
         };
 
-        // Simple validation
         if (!dataObat.namaObat || !dataObat.asalBarang || !dataObat.jenisBarang || !dataObat.sumberDana || !dataObat.satuan || !dataObat.noBatchAwal || !dataObat.tanggalExpAwal || !dataObat.stokAwal || !dataObat.hargaBeli || !dataObat.hargaJual) {
             alert('Mohon lengkapi semua field yang wajib diisi');
             return;
         }
 
-        // Validate numeric values
         if (dataObat.stokAwal <= 0 || dataObat.hargaBeli <= 0 || dataObat.hargaJual <= 0) {
             alert('Stok, harga beli, dan harga jual harus lebih dari 0');
             return;
         }
 
-        // Save to localStorage (similar to patient form)
         const existingData = JSON.parse(localStorage.getItem("dataObatList") || "[]");
         existingData.push(dataObat);
         localStorage.setItem("dataObatList", JSON.stringify(existingData));
 
-        // Show success modal
         showSuccessModal();
     });
 
-    // Success modal functions
     function showSuccessModal() {
         const modal = document.getElementById('successModal');
         const modalContent = document.getElementById('successModalContent');
         
         modal.classList.remove('hidden');
         
-        // Trigger animation
         setTimeout(() => {
             modalContent.classList.remove('scale-95', 'opacity-0');
             modalContent.classList.add('scale-100', 'opacity-100');
@@ -290,31 +279,25 @@
         }, 300);
     }
 
-    // Success modal OK button
     okBtn.addEventListener('click', () => {
         hideSuccessModal();
-        // Redirect to data table page after animation
         setTimeout(() => {
             window.location.href = 'tabel-data-obat.html';
         }, 300);
     });
 
-    // Kembali button
     kembaliBtn.addEventListener('click', () => {
         if (confirm('Apakah Anda yakin ingin kembali? Data yang telah diisi akan hilang.')) {
-            // Redirect to data table page
             window.location.href = 'tabel-data-obat.html';
         }
     });
 
-    // Close success modal when clicking outside
     successModal.addEventListener('click', (e) => {
         if (e.target === successModal) {
             hideSuccessModal();
         }
     });
 
-    // Auto format number inputs
     const numberInputs = ['stokAwal', 'hargaBeli', 'hargaJual'];
     numberInputs.forEach(inputId => {
         const input = document.getElementById(inputId);
